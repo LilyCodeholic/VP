@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-16">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="Content-Security-Policy"
+			content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+
+	<!-- 数字が電話番号と認識されるのを無効化する(かも) -->
+	<meta name="format-detection" content="telephone=no">
+
+	<link rel="stylesheet" href="components/loader.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="components/loader.js"></script>
+
+	<script src="js/Common.js"></script>
+	<script src="js/Database.js"></script>
+	<script src="js/JW.js"></script>
+
+	<script>
+		"use strict";
+		// AutoStyling 機能を無効にしたい場合、以下のコードを後述の onsenui.js を読み込んだ直後に記述します。
+		ons.disableAutoStyling();
+
+		ons.ready(() =>
+		{
+			console.log("ons.ready:");
+
+			document.addEventListener("init", (event) =>
+			{
+				console.log(`init: ${event.target.id}`);
+
+				switch(event.target.id)
+				{
+					case "pageMain":
+						break;
+
+					case "pageJokersWild":
+						console.log(" call: funcJW();");
+						funcJW();
+						break;
+
+					default:
+						break;
+				}
+			}, false);
+
+			// 初期ページを設定
+			VPnavigator.pushPage("Main.html");
+
+		});
+	</script>
+</head>
+
+<body>
+	<ons-navigator id="VPnavigator">
+	</ons-navigator>
+
+	<ons-template id="Main.html">
+		<ons-page id="pageMain">
+			<ons-toolbar>
+				<div class="left"></div>
+				<div class="center">びでぽ。</div>
+				<div class="right"></div>
+			</ons-toolbar>
+
+			<ons-list>
+				<ons-list-header>メインメニュー</ons-list-header>
+
+				<ons-list-item id="gotoJokersWild" modifier="chevron"
+					onclick="VPnavigator.pushPage('JokersWild.html', {animation: 'slide'});">
+					Joker's Wild</ons-list-item>
+				<ons-list-item id="gotoAck" modifier="chevron"
+					onclick="VPnavigator.pushPage('Ack.html', {animation: 'slide'});">
+					謝辞</ons-list-item>
+			</ons-list>
+		</ons-page>
+	</ons-template>
+
+	<ons-template id="JokersWild.html">
+		<ons-page id="pageJokersWild">
+			<ons-toolbar>
+				<div class="left">
+					<ons-back-button>戻る</ons-back-button></div>
+				<div class="center">
+					Joker's Wild</div>
+				<div class="right">ルール</div>
+			</ons-toolbar>
+
+			<ons-list id="listJokersWild">
+			</ons-list>    
+		</ons-page>
+	</ons-template>
+
+	<ons-template id="Rule.html">
+		<ons-page id="pageRule">
+			<ons-toolbar>
+				<div class="left">
+					<ons-back-button>戻る</ons-back-button></div>
+				<div class="center">
+					ビデオポーカーのルール。</div>
+				<div class="right">
+				</div>
+			</ons-toolbar>
+
+			<ons-list>
+				<ons-list-item id="gotoJokersWild" modifier="chevron"
+					onclick="VDPnavigator.pushPage('ruleJokersWild.html', {animation: 'slide'});">
+					Joker's Wild</ons-list-item>
+			</ons-list>    
+		</ons-page>
+	</ons-template>
+
+	<ons-template id="Ack.html">
+		<ons-page id="pageAck">
+			<ons-toolbar>
+				<div class="left">
+					<ons-back-button>戻る</ons-back-button></div>
+				<div class="center">
+					ありがとうございました。</div>
+				<div class="right">
+				</div>
+			</ons-toolbar>
+
+			<ons-list>
+				<ons-list-item>
+					ビデオポーカー兄貴
+				</ons-list-item>
+				<ons-list-item>
+					http://www.nicovideo.jp/user/18627251
+				</ons-list-item>
+			</ons-list>    
+		</ons-page>
+	</ons-template>
+
+</body>
+</html>

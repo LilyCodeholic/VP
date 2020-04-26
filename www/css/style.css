@@ -1,0 +1,77 @@
+/* 汎用 */
+.red
+{
+    color: #FF0000;
+}
+.black
+{
+    color: #000000;
+}
+.row
+{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    line-height: 85%;
+    text-align: right;
+    font-family: monospace;
+    break-inside: avoid;
+}
+.heldText
+{
+    font-size: 4vw;
+    line-height: 100%;
+    margin: 0px auto;
+    text-align: center;
+}
+.hidden
+{
+    visibility: hidden;
+}
+
+/* Joker's Wild */
+#JWTextRate
+{
+    margin: 0;
+    padding: 0;
+}
+#JWTextCaution
+{
+    width: 100%;
+	text-align: center;
+}
+[id^="JWHand"]
+{
+    font-size: 20vw;
+    margin: 0px auto;
+    display: inline-block;
+    line-height: 100%;
+    text-align: center;
+}
+#JWAlignBottomLeft
+{
+    margin: 0px auto;
+    display: inline-block;
+    line-height: 100%;
+    text-align: left;
+    font-family: monospace;
+}
+#JWAlignBottomRight
+{
+    margin: 0px auto;
+    display: inline-block;
+    line-height: 100%;
+    text-align: right;
+    font-family: monospace;
+}
+#JWTextBottom
+{
+	text-align: center;
+}
+#JWButtonLeft div, #JWButtonCenter div, #JWButtonRight div
+{
+    margin: 0px auto;
+    display: inline-block;
+    line-height: 100%;
+    text-align: center;
+}
