@@ -1,9 +1,6 @@
-/* global setOnclick, changeText, initCard, removeClass, addClass */
-/* global hold, changeText, wager, flagPaid, credit, cards, illust, win, flagPlayed, paid */
-
 /*
-    funcJW();
-    Joker's Wild。普通のドローポーカー。
+	funcJW();
+	Joker's Wild。普通のドローポーカー。
 	SIGMA JOKER'S WILD
 	GAME CODE: JW
 	DESCRIPTION: TWO PAIR OR BETTER
@@ -20,70 +17,69 @@
 */
 const funcJW = () =>
 {
-const JW =
-{
-	Hands:
-	[
-		"ROYAL FLUSH W/O JOKER--",
-		"FIVE OF A KIND---------",
-		"STRAIGHT FLUSH---------",
-		"FOUR OF A KIND---------",
-		"FULL HOUSE-------------",
-		"FLUSH------------------",
-		"STRAIGHT---------------",
-		"THREE OF A KIND--------",
-		"TWO PAIR---------------",
-	],
-	Caution: "ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH",
-	Rate1: [500, 100, 50, 20, 8, 5, 4, 2, 1],
-	Rate2: [1000, 100, 50, 20, 8, 5, 4, 2, 1],
-	RateChange: 5,
-	MaxBet: 40,
-}
+	const JW =
+	{
+		Hands:
+		[
+			"ROYAL FLUSH W/O JOKER--",
+			"FIVE OF A KIND---------",
+			"STRAIGHT FLUSH---------",
+			"FOUR OF A KIND---------",
+			"FULL HOUSE-------------",
+			"FLUSH------------------",
+			"STRAIGHT---------------",
+			"THREE OF A KIND--------",
+			"TWO PAIR---------------",
+		],
+		Caution: "ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH",
+		Rate1: [500, 100, 50, 20, 8, 5, 4, 2, 1],
+		Rate2: [1000, 100, 50, 20, 8, 5, 4, 2, 1],
+		RateChange: 5,
+		MaxBet: 40,
+	}
 
-const fragment = document.createDocumentFragment();
+	const fragment = document.createDocumentFragment();
 
-const listItemRate = document.createElement("ons-list-item");
-const divTextRate = document.createElement("div");
-const divRow1 = document.createElement("div");
-const divTextHand = document.createElement("div");
-const divRate1 = document.createElement("div");
-const divRate2 = document.createElement("div");
-const divRate3 = document.createElement("div");
-const divRate4 = document.createElement("div");
-const divRate5 = document.createElement("div");
-const divRow2 = document.createElement("div");
-const divTextCaution = document.createElement("div");
+	const listItemRate = document.createElement("ons-list-item");
+	const divTextRate = document.createElement("div");
+	const divRow1 = document.createElement("div");
+	const divTextHand = document.createElement("div");
+	const divRate1 = document.createElement("div");
+	const divRate2 = document.createElement("div");
+	const divRate3 = document.createElement("div");
+	const divRate4 = document.createElement("div");
+	const divRate5 = document.createElement("div");
+	const divRow2 = document.createElement("div");
+	const divTextCaution = document.createElement("div");
+	const rowHand = document.createElement("ons-row");
+	const colHand1 = document.createElement("ons-col");
+	const colHand2 = document.createElement("ons-col");
+	const colHand3 = document.createElement("ons-col");
+	const colHand4 = document.createElement("ons-col");
+	const colHand5 = document.createElement("ons-col");
+	const listItemHand1 = document.createElement("ons-list-item");
+	const listItemHand2 = document.createElement("ons-list-item");
+	const listItemHand3 = document.createElement("ons-list-item");
+	const listItemHand4 = document.createElement("ons-list-item");
+	const listItemHand5 = document.createElement("ons-list-item");
+	const divHand1 = document.createElement("div");
+	const divHand2 = document.createElement("div");
+	const divHand3 = document.createElement("div");
+	const divHand4 = document.createElement("div");
+	const divHand5 = document.createElement("div");
+	const divHeld1 = document.createElement("div");
+	const divHeld2 = document.createElement("div");
+	const divHeld3 = document.createElement("div");
+	const divHeld4 = document.createElement("div");
+	const divHeld5 = document.createElement("div");
 
-const rowHand = document.createElement("ons-row");
-const colHand1 = document.createElement("ons-col");
-const colHand2 = document.createElement("ons-col");
-const colHand3 = document.createElement("ons-col");
-const colHand4 = document.createElement("ons-col");
-const colHand5 = document.createElement("ons-col");
-const listItemHand1 = document.createElement("ons-list-item");
-const listItemHand2 = document.createElement("ons-list-item");
-const listItemHand3 = document.createElement("ons-list-item");
-const listItemHand4 = document.createElement("ons-list-item");
-const listItemHand5 = document.createElement("ons-list-item");
-const divHand1 = document.createElement("div");
-const divHand2 = document.createElement("div");
-const divHand3 = document.createElement("div");
-const divHand4 = document.createElement("div");
-const divHand5 = document.createElement("div");
-const divHeld1 = document.createElement("div");
-const divHeld2 = document.createElement("div");
-const divHeld3 = document.createElement("div");
-const divHeld4 = document.createElement("div");
-const divHeld5 = document.createElement("div");
+	let rowCredit;
+	let colCreditLeft;
+	let colCreditCenter;
+	let colCreditRight;
+	let divTextWager;
 
-const rowCredit;
-const colCreditLeft;
-const colCreditCenter;
-const colCreditRight;
-const divTextWager;
-
-/*
+	/*
 				<ons-row>
 					<ons-col id="JKWDalignBottomLeft" width="20%">
 						<div id="JKWDtextWager">
@@ -217,12 +213,14 @@ rowHand.appendChild(colHand5);
 console.log(rowHand);
 fragment.appendChild(rowHand);
 
-//Button
-
+// Button
 fragment.appendChild(rowButton);
 
 list.appendChild(fragment);
+
 };
+
+
 /*
 				<ons-row>
 					<ons-col id="JKWDalignBottomLeft" width="20%">
@@ -343,315 +341,316 @@ ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH
 */
 
 /*
-    startJKWD();
-    「DEAL」を押したときに発火。
-    連コ、カードの初期化、カードの表示、判定の呼び出しまでする。
+	startJKWD();
+	「DEAL」を押したときに発火。
+	連コ、カードの初期化、カードの表示、判定の呼び出しまでする。
 */
 const startJKWD = () =>
 {
-    if(wager == 0)
-    {
-        return;
-    }
-    flagPlayed = true;
-    if(flagPaid)
-    {
-        flagPaid = false;
-    }
-    else if(!flagPaid)
-    {
-        credit -= wager;
-        updateJKWD();
-    }
+	if(wager == 0)
+	{
+		return;
+	}
+	flagPlayed = true;
+	if(flagPaid)
+	{
+		flagPaid = false;
+	}
+	else if(!flagPaid)
+	{
+		credit -= wager;
+		updateJKWD();
+	}
 
-    // トランプを初期化する。
-    initCard(53);
+	// トランプを初期化する。
+	initCard(53);
 
-    let i = 0;
-    let loopCount = 0;
+	let i = 0;
+	let loopCount = 0;
 
-    const timer = setInterval(() =>
-    {
-        if(cards[i].mark == 0 || cards[i].mark == 1 || cards[i].mark == 4)
-        {
-            removeClass(`#JKWDhand${i}`, "red");
-            addClass(`#JKWDhand${i}`, "black");
-        }
-        else
-        {
-            removeClass(`#JKWDhand${i}`, "black");
-            addClass(`#JKWDhand${i}`, "red");
-        }
-        changeText(`#JKWDhand${i}`, illust[cards[i].mark][cards[i].number]);
+	const timer = setInterval(() =>
+	{
+		if(cards[i].mark == 0 || cards[i].mark == 1 || cards[i].mark == 4)
+		{
+			removeClass(`#JKWDhand${i}`, "red");
+			addClass(`#JKWDhand${i}`, "black");
+		}
+		else
+		{
+			removeClass(`#JKWDhand${i}`, "black");
+			addClass(`#JKWDhand${i}`, "red");
+		}
+		changeText(`#JKWDhand${i}`, illust[cards[i].mark][cards[i].number]);
 
-        loopCount++;
-        i++;
-        if(!(loopCount < 5))
-        {
-            i = 0;
-            changeText("#JKWDdeal", "");
-            changeText("#JKWDdraw", "DRAW");
-            setOnclick("#JKWDbuttonRight", drawJKWD);
-            clearInterval(timer);
-        }
-    }, 100);
+		loopCount++;
+		i++;
+		if(!(loopCount < 5))
+		{
+			i = 0;
+			changeText("#JKWDdeal", "");
+			changeText("#JKWDdraw", "DRAW");
+			setOnclick("#JKWDbuttonRight", drawJKWD);
+			clearInterval(timer);
+		}
+	}, 100);
 };
 
 /*
-    drawJKWD();
-    setsumei kakou
+	drawJKWD();
+	setsumei kakou
 */
 const drawJKWD = () =>
 {
-    let JKWDholds;
-    let i = 0;
-    let loopCount = 0;
+	let JKWDholds;
+	let i = 0;
+	let loopCount = 0;
 
-    let timer = setInterval(() =>
-    {
-        JKWDholds = document.getElementById("pageJokersWild").getElementsByClassName("holdText");
+	let timer = setInterval(() =>
+	{
+		JKWDholds = document.getElementById("pageJokersWild").getElementsByClassName("holdText");
 
-        if(JKWDholds[i].classList.contains("hidden"))
-        {
-            console.log(JKWDholds[i].className);
-            changeText(`#JKWDhand${i}`, illust[cards[5 + i].mark][cards[5 + i].number]);
-            cards[i].mark = cards[5 + i].mark;
-            cards[i].number = cards[5 + i].number;
+		if(JKWDholds[i].classList.contains("hidden"))
+		{
+			console.log(JKWDholds[i].className);
+			changeText(`#JKWDhand${i}`, illust[cards[5 + i].mark][cards[5 + i].number]);
+			cards[i].mark = cards[5 + i].mark;
+			cards[i].number = cards[5 + i].number;
 
-            if(cards[i].mark == 0 || cards[i].mark == 1 || cards[i].mark == 4)
-            {
-                removeClass(`#JKWDhand${i}`, "red");
-                addClass(`#JKWDhand${i}`, "black");
-            }
-            else
-            {
-                removeClass(`#JKWDhand${i}`, "black");
-                addClass(`#JKWDhand${i}`, "red");
-            }
-        }
+			if(cards[i].mark == 0 || cards[i].mark == 1 || cards[i].mark == 4)
+			{
+				removeClass(`#JKWDhand${i}`, "red");
+				addClass(`#JKWDhand${i}`, "black");
+			}
+			else
+			{
+				removeClass(`#JKWDhand${i}`, "black");
+				addClass(`#JKWDhand${i}`, "red");
+			}
+		}
 
-        loopCount++;
-        i++;
-        if(!(loopCount < 5))
-        {
-            i = 0;
-            judgeJKWD();
-            clearInterval(timer);
-        }
-    }, 100);
+		loopCount++;
+		i++;
+		if(!(loopCount < 5))
+		{
+			i = 0;
+			judgeJKWD();
+			clearInterval(timer);
+		}
+	}, 100);
 };
 
 /*
-    judgeJKWD();
-    役の判定をする。
+	judgeJKWD();
+	役の判定をする。
 */
 const judgeJKWD = () =>
 {
-    let judge;
-    let i;
-    let bucketMarks = [0, 0, 0, 0, 0, 0];
-    let bucketNumbers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let hasJoker = false;
-    let hasRoyal = false;
-    let hasFlush = false;
-    let hasStraight = false;
-    let hasFour = false;
-    let hasThree = false;
-    let hasTwo = false;
-    let hasTwoPair = false;
+	let judge;
+	let i;
+	let bucketMarks = [0, 0, 0, 0, 0, 0];
+	let bucketNumbers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	let hasJoker = false;
+	let hasRoyal = false;
+	let hasFlush = false;
+	let hasStraight = false;
+	let hasFour = false;
+	let hasThree = false;
+	let hasTwo = false;
+	let hasTwoPair = false;
 
-    for(i = 0; i < 5; i++)
-    {
-        bucketMarks[cards[i].mark]++;
-        bucketNumbers[cards[i].number]++;
-    }
-    // console.log("bucketMarks: " + bucketMarks);
-    // console.log("bucketNumbers: " + bucketNumbers);
+	for(i = 0; i < 5; i++)
+	{
+		bucketMarks[cards[i].mark]++;
+		bucketNumbers[cards[i].number]++;
+	}
+	// console.log("bucketMarks: " + bucketMarks);
+	// console.log("bucketNumbers: " + bucketNumbers);
 
-    // ジョーカーが含まれているか
-    if(bucketNumbers[0] > 0)
-    {
-        console.log(`  hasJoker: ${bucketNumbers[0]}`);
-        hasJoker = true;
-    }
-    // ロイヤルフラッシュの数字の組み合わせか
-    if(bucketNumbers[1] * bucketNumbers[10] * bucketNumbers[11] * bucketNumbers[12] * bucketNumbers[13] == 1)
-    {
-        console.log(`  hasRoyal: ${bucketNumbers[1]} ${bucketNumbers[10]} ${bucketNumbers[11]} ${bucketNumbers[12]} ${bucketNumbers[13]}`);
-        hasRoyal = true;
-    }
-    // 同じマークが5枚揃っているか
-    if(bucketMarks.some(function(element){return element + this[0] == 5;}, bucketNumbers))
-    {
-        console.log(`  hasFlush: ${bucketMarks[0]} ${bucketMarks[1]} ${bucketMarks[2]} ${bucketMarks[3]} ${bucketMarks[4]} ${bucketMarks[5]}`);
-        hasFlush = true;
-    }
-    // 数字が5連番か
-    if(bucketNumbers.lastIndexOf(1) - bucketNumbers.indexOf(1, 1) < 5 &&
-       bucketNumbers.filter(function(element){return element == 1;}).length + bucketNumbers[0] >= 5)
-    {
-        console.log(`  hasStraight: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-        hasStraight = true;
-    }
-    // 同じ数字が4枚あるか
-    if(bucketNumbers.some(function(element){return element == 4;}))
-    {
-        console.log(`  hasFour: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-        hasFour = true;
-    }
-    // 同じ数字が3枚あるか
-    if(bucketNumbers.some(function(element){return element == 3;}))
-    {
-        console.log(`  hasThree: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-        hasThree = true;
-    }
-    // 同じ数字が2枚あるか
-    if(bucketNumbers.some(function(element){return element == 2;}))
-    {
-        console.log(`  hasTwo: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-        hasTwo = true;
-    }
-    // 同じ数字が2枚を2組持っているか
-    if(bucketNumbers.filter(function(element){return element >= 2;}).length >= 2)
-    {
-        console.log(`  hasTwoPair: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-        hasTwoPair = true;
-    }
+	// ジョーカーが含まれているか
+	if(bucketNumbers[0] > 0)
+	{
+		console.log(`  hasJoker: ${bucketNumbers[0]}`);
+		hasJoker = true;
+	}
+	// ロイヤルフラッシュの数字の組み合わせか
+	if(bucketNumbers[1] * bucketNumbers[10] * bucketNumbers[11] * bucketNumbers[12] * bucketNumbers[13] == 1)
+	{
+		console.log(`  hasRoyal: ${bucketNumbers[1]} ${bucketNumbers[10]} ${bucketNumbers[11]} ${bucketNumbers[12]} ${bucketNumbers[13]}`);
+		hasRoyal = true;
+	}
+	// 同じマークが5枚揃っているか
+	if(bucketMarks.some(function(element){return element + this[0] == 5;}, bucketNumbers))
+	{
+		console.log(`  hasFlush: ${bucketMarks[0]} ${bucketMarks[1]} ${bucketMarks[2]} ${bucketMarks[3]} ${bucketMarks[4]} ${bucketMarks[5]}`);
+		hasFlush = true;
+	}
+	// 数字が5連番か
+	if(bucketNumbers.lastIndexOf(1) - bucketNumbers.indexOf(1, 1) < 5 &&
+	   bucketNumbers.filter(function(element){return element == 1;}).length + bucketNumbers[0] >= 5)
+	{
+		console.log(`  hasStraight: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+		hasStraight = true;
+	}
+	// 同じ数字が4枚あるか
+	if(bucketNumbers.some(function(element){return element == 4;}))
+	{
+		console.log(`  hasFour: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+		hasFour = true;
+	}
+	// 同じ数字が3枚あるか
+	if(bucketNumbers.some(function(element){return element == 3;}))
+	{
+		console.log(`  hasThree: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+		hasThree = true;
+	}
+	// 同じ数字が2枚あるか
+	if(bucketNumbers.some(function(element){return element == 2;}))
+	{
+		console.log(`  hasTwo: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+		hasTwo = true;
+	}
+	// 同じ数字が2枚を2組持っているか
+	if(bucketNumbers.filter(function(element){return element >= 2;}).length >= 2)
+	{
+		console.log(`  hasTwoPair: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+		hasTwoPair = true;
+	}
 
-    // ROYAL FLUSH W/O JOKER
-    if(!hasJoker && hasRoyal && hasFlush)
-    {
-        judge = 500;
-    }
-    // FIVE OF A KIND
-    else if(hasJoker && hasFour)
-    {
-        judge = 100;
-    }
-    // STRAIGHT FLUSH
-    else if(hasFlush && hasStraight)
-    {
-        judge = 50;
-    }
-    // FOUR OF A KIND
-    else if(hasFour || (hasJoker && hasThree))
-    {
-        judge = 20;
-    }
-    // FULL HOUSE
-    else if((hasJoker && hasTwoPair) || (hasThree && hasTwoPair))
-    {
-        judge = 8;
-    }
-    // FLUSH
-    else if(hasFlush)
-    {
-        judge = 5;
-    }
-    // STRAIGHT
-    else if(hasStraight)
-    {
-        judge = 4;
-    }
-    // THREE OF A KIND
-    else if(hasThree || (hasTwo && hasJoker))
-    {
-        judge = 2;
-    }
-    // TWO PAIR
-    else if(hasTwoPair)
-    {
-        judge = 1;
-    }
-    // はずれ
-    else
-    {
-        judge = 0;
-    }
+	// ROYAL FLUSH W/O JOKER
+	if(!hasJoker && hasRoyal && hasFlush)
+	{
+		judge = 500;
+	}
+	// FIVE OF A KIND
+	else if(hasJoker && hasFour)
+	{
+		judge = 100;
+	}
+	// STRAIGHT FLUSH
+	else if(hasFlush && hasStraight)
+	{
+		judge = 50;
+	}
+	// FOUR OF A KIND
+	else if(hasFour || (hasJoker && hasThree))
+	{
+		judge = 20;
+	}
+	// FULL HOUSE
+	else if((hasJoker && hasTwoPair) || (hasThree && hasTwoPair))
+	{
+		judge = 8;
+	}
+	// FLUSH
+	else if(hasFlush)
+	{
+		judge = 5;
+	}
+	// STRAIGHT
+	else if(hasStraight)
+	{
+		judge = 4;
+	}
+	// THREE OF A KIND
+	else if(hasThree || (hasTwo && hasJoker))
+	{
+		judge = 2;
+	}
+	// TWO PAIR
+	else if(hasTwoPair)
+	{
+		judge = 1;
+	}
+	// はずれ
+	else
+	{
+		judge = 0;
+	}
 
-    if(judge == 0)
-    {
-        changeText("#JKWDtextBottom", "GAME OVER");
-        changeText("#JKWDdraw", "");
-        changeText("#JKWDdeal", "DEAL");
-        setOnclick("#JKWDbuttonRight", startJKWD);
-    }
-    else if(judge > 0)
-    {
-        changeText("#JKWDtextBottom", "WINNER !");
-        if(judge == 500)
-        {
-            win = judge * (wager + Math.floor(wager / 10) * 10);
-        }
-        else
-        {
-            win = judge * wager;
-        }
-        updateJKWD();
-    }
+	if(judge == 0)
+	{
+		changeText("#JKWDtextBottom", "GAME OVER");
+		changeText("#JKWDdraw", "");
+		changeText("#JKWDdeal", "DEAL");
+		setOnclick("#JKWDbuttonRight", startJKWD);
+	}
+	else if(judge > 0)
+	{
+		changeText("#JKWDtextBottom", "WINNER !");
+		if(judge == 500)
+		{
+			win = judge * (wager + Math.floor(wager / 10) * 10);
+		}
+		else
+		{
+			win = judge * wager;
+		}
+		updateJKWD();
+	}
 
-    hasJoker = false;
-    hasRoyal = false;
-    hasFlush = false;
-    hasStraight = false;
-    hasFour = false;
-    hasThree = false;
-    hasTwo = false;
-    hasTwoPair = false;
-    judge = 0;
+	hasJoker = false;
+	hasRoyal = false;
+	hasFlush = false;
+	hasStraight = false;
+	hasFour = false;
+	hasThree = false;
+	hasTwo = false;
+	hasTwoPair = false;
+	judge = 0;
 
-    flagPlayed = false;
+	flagPlayed = false;
 };
 
 const payOutJKWD = (judge) =>
 {
-    return 0;
+	return 0;
 };
 
 /*
-    betJKWD(掛け金);
-    「BET ONE」、「MAX BET」を押したときに発火。
+	betJKWD(掛け金);
+	「BET ONE」、「MAX BET」を押したときに発火。
 */
 const betJKWD = (bet) =>
 {
-    // クレジット投入中フラグをたてる
-    flagPaid = true;
+	// クレジット投入中フラグをたてる
+	flagPaid = true;
 
-    // まだプレイしていないとき、1枚以上投入したあとはここを通る
-    if(!flagPlayed)
-    {
-        let tmpBet;
-        if(bet == 40)
-        {
-            tmpBet = wager;
-            wager = wager + (40 - tmpBet);
-            credit = credit - (40 - tmpBet);
-        }
-        else if(wager < 40)
-        {
-            wager += bet;
-            credit -= bet;
-        }
-    }
-    // 連続してプレイする時は最初にここを通る
-    else if(flagPlayed)
-    {
-        flagPlayed = false;
-        changeText("#JKWDtextBottom", "GOOD LUCK");
-        wager = bet;
-        credit -= bet;
-    }
-    updateJKWD();
+	// まだプレイしていないとき、1枚以上投入したあとはここを通る
+	if(!flagPlayed)
+	{
+		let tmpBet;
+		if(bet == 40)
+		{
+			tmpBet = wager;
+			wager = wager + (40 - tmpBet);
+			credit = credit - (40 - tmpBet);
+		}
+		else if(wager < 40)
+		{
+			wager += bet;
+			credit -= bet;
+		}
+	}
+	// 連続してプレイする時は最初にここを通る
+	else if(flagPlayed)
+	{
+		flagPlayed = false;
+		changeText("#JKWDtextBottom", "GOOD LUCK");
+		wager = bet;
+		credit -= bet;
+	}
+	updateJKWD();
 };
 
 /*
-    updateJKWD();
-    wager, win, paid, creditsの表示を更新する。
+	updateJKWD();
+	wager, win, paid, creditsの表示を更新する。
 */
+
 let updateJKWD = () =>
 {
-    changeText("#JKWDvalueWager", wager.padding(" ", 2));
-    changeText("#JKWDvalueWin", win.padding(" ", 5));
-    changeText("#JKWDvaluePaid", paid.padding(" ", 4));
-    changeText("#JKWDvalueCredit", credit);
+	changeText("#JKWDvalueWager", wager.padding(" ", 2));
+	changeText("#JKWDvalueWin", win.padding(" ", 5));
+	changeText("#JKWDvaluePaid", paid.padding(" ", 4));
+	changeText("#JKWDvalueCredit", credit);
 };
