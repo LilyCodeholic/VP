@@ -10,6 +10,7 @@
 		"indent": "off",
 		"keyword-spacing": "off",
 		"linebreak-style": "off",
+		"lines-between-class-members": "off",
 		"max-lines": "off",
 		"max-statements": "off",
 		"max-classes-per-file": "off",
@@ -18,7 +19,9 @@
 		"multiline-comment-style": "off",
 		"no-console": "off",
 		"no-tabs": "off",
+		"no-underscore-dangle": ["error", { "allowAfterThis": true }],
 		"one-var": "off",
+		"operator-assignment": "off",
 		"padded-blocks": "off",
 		"space-before-function-paren": "off",
 		"strict": "off"
