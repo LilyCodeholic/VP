@@ -1,0 +1,26 @@
+{
+	"env":{
+		"browser": true,
+		"es6": true
+	},
+	"extends": "eslint:all",
+	"rules":{
+		"brace-style": "off",
+		"capitalized-comments": "off",
+		"indent": "off",
+		"keyword-spacing": "off",
+		"linebreak-style": "off",
+		"max-lines": "off",
+		"max-statements": "off",
+		"max-classes-per-file": "off",
+		"max-lines-per-function": "off",
+		"max-len": "off",
+		"multiline-comment-style": "off",
+		"no-console": "off",
+		"no-tabs": "off",
+		"one-var": "off",
+		"padded-blocks": "off",
+		"space-before-function-paren": "off",
+		"strict": "off"
+	}
+}

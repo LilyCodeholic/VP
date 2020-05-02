@@ -218,7 +218,11 @@ class ContextJW
 
 	startGame()
 	{
+<<<<<<< HEAD
 		console.log("JW: startBet()");
+=======
+		console.log("JKWD: startBet()");
+>>>>>>> 858477959d60ffb8610f62ed7fbaa670c971eb90
 		this.state = new bet();
 	}
 }
