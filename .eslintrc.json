@@ -5,8 +5,11 @@
 	},
 	"extends": "eslint:all",
 	"rules":{
+		"array-element-newline": "off",
 		"brace-style": "off",
 		"capitalized-comments": "off",
+		"comma-dangle": "off",
+		"function-call-argument-newline": "off",
 		"indent": "off",
 		"keyword-spacing": "off",
 		"linebreak-style": "off",
@@ -17,12 +20,14 @@
 		"max-lines-per-function": "off",
 		"max-len": "off",
 		"multiline-comment-style": "off",
+		"new-cap": "off",
 		"no-console": "off",
 		"no-tabs": "off",
 		"no-underscore-dangle": ["error", { "allowAfterThis": true }],
 		"one-var": "off",
 		"operator-assignment": "off",
 		"padded-blocks": "off",
+		"sort-keys": "off",
 		"space-before-function-paren": "off",
 		"strict": "off"
 	}

@@ -1,173 +1,203 @@
 /*
-	funcJW();
-	Joker's Wild。普通のドローポーカー。
-	SIGMA JOKER'S WILD
-	GAME CODE: JW
-	DESCRIPTION: TWO PAIR OR BETTER
-	DEFAULT PAYOUT PERCENT: 87.7%
-	ROYAL FLUSH W/O WILD 500
-	FIVE OF A KIND       100
-	STRAIGHT FLUSH        50
-	FOUR OF A KIND        20
-	FULL HOUSE             8
-	FLUSH                  5
-	STRAIGHT               4
-	THREE OF A KIND        2
-	TWO PAIR               1
+funcJW();
+Joker's Wild。普通のドローポーカー。
+SIGMA JOKER'S WILD
+GAME CODE: JW
+DESCRIPTION: TWO PAIR OR BETTER
+DEFAULT PAYOUT PERCENT: 87.7%
+ROYAL FLUSH W/O WILD 500
+FIVE OF A KIND       100
+STRAIGHT FLUSH        50
+FOUR OF A KIND        20
+FULL HOUSE             8
+FLUSH                  5
+STRAIGHT               4
+THREE OF A KIND        2
+TWO PAIR               1
 */
 const funcJW = () =>
 {
-	const JW =
-	{
-		Hands:
-		[
-			"ROYAL FLUSH W/O JOKER--",
-			"FIVE OF A KIND---------",
-			"STRAIGHT FLUSH---------",
-			"FOUR OF A KIND---------",
-			"FULL HOUSE-------------",
-			"FLUSH------------------",
-			"STRAIGHT---------------",
-			"THREE OF A KIND--------",
-			"TWO PAIR---------------",
-		],
-		Caution: "ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH",
-		Rate1: [500, 100, 50, 20, 8, 5, 4, 2, 1],
-		Rate2: [1000, 100, 50, 20, 8, 5, 4, 2, 1],
-		RateChange: 5,
-		MaxBet: 40,
-	}
+const JW =
+{
+	"Hands":
+	[
+		"ROYAL FLUSH W/O JOKER--",
+		"FIVE OF A KIND---------",
+		"STRAIGHT FLUSH---------",
+		"FOUR OF A KIND---------",
+		"FULL HOUSE-------------",
+		"FLUSH------------------",
+		"STRAIGHT---------------",
+		"THREE OF A KIND--------",
+		"TWO PAIR---------------",
+	],
+	"Caution": "ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH",
+	"Rate1": [500, 100, 50, 20, 8, 5, 4, 2, 1],
+	"Rate2": [1000, 100, 50, 20, 8, 5, 4, 2, 1],
+	"RateChange": 5,
+	"MaxBet": 40,
+};
 
-	const fragment = document.createDocumentFragment();
+// DOM生成
+const fragment = document.createDocumentFragment();
 
-	const listItemRate = document.createElement("ons-list-item");
-	const divTextRate = document.createElement("div");
-	const divRow1 = document.createElement("div");
-	const divTextHand = document.createElement("div");
-	const divRate1 = document.createElement("div");
-	const divRate2 = document.createElement("div");
-	const divRate3 = document.createElement("div");
-	const divRate4 = document.createElement("div");
-	const divRate5 = document.createElement("div");
-	const divRow2 = document.createElement("div");
-	const divTextCaution = document.createElement("div");
-	const rowHand = document.createElement("ons-row");
-	const colHand1 = document.createElement("ons-col");
-	const colHand2 = document.createElement("ons-col");
-	const colHand3 = document.createElement("ons-col");
-	const colHand4 = document.createElement("ons-col");
-	const colHand5 = document.createElement("ons-col");
-	const listItemHand1 = document.createElement("ons-list-item");
-	const listItemHand2 = document.createElement("ons-list-item");
-	const listItemHand3 = document.createElement("ons-list-item");
-	const listItemHand4 = document.createElement("ons-list-item");
-	const listItemHand5 = document.createElement("ons-list-item");
-	const divHand1 = document.createElement("div");
-	const divHand2 = document.createElement("div");
-	const divHand3 = document.createElement("div");
-	const divHand4 = document.createElement("div");
-	const divHand5 = document.createElement("div");
-	const divHeld1 = document.createElement("div");
-	const divHeld2 = document.createElement("div");
-	const divHeld3 = document.createElement("div");
-	const divHeld4 = document.createElement("div");
-	const divHeld5 = document.createElement("div");
-
-	let rowCredit;
-	let colCreditLeft;
-	let colCreditCenter;
-	let colCreditRight;
-	let divTextWager;
-
-	/*
-				<ons-row>
-					<ons-col id="JKWDalignBottomLeft" width="20%">
-						<div id="JKWDtextWager">
-							WAGER <span id="JKWDvalueWager"></span>
-						</div>
-						<div id="JKWDtextWin">
-							WIN <span id="JKWDvalueWin"></span>
-						</div>
-						<div id="JKWDtextPaid">
-							PAID <span id="JKWDvaluePaid"></span>
-						</div>
-					</ons-col>
-					<ons-col>
-						<div id="JKWDtextBottom">
-							GOOD LUCK
-						</div>
-					</ons-col>
-					<ons-col id="JKWDalignBottomRight" width="20%">
-						<div id="JKWDtextCredits">
-							CREDITS
-						</div>
-						<div id="JKWDvalueCredit">
-						</div>
-						<div>
-						</div>
-					</ons-col>
-				</ons-row>
-
-*/
-const rowButton = document.createElement("ons-row");
-const colButtonLeft = document.createElement("ons-col");
-const colButtonCenter = document.createElement("ons-col");
-const colButtonRight = document.createElement("ons-col");
-const listItemButtonLeft = document.createElement("ons-list-item");
-const listItemButtonCenter = document.createElement("ons-list-item");
-const listItemButtonRight = document.createElement("ons-list-item");
-
-const list = document.getElementById("listJokersWild");
 const calculateRate = (multiplier) =>
 {
 	const rate =
-		multiplier < JW.RateChange ?
-			JW.Rate1.map((value) => value  * multiplier) :
-			JW.Rate2.map((value) => value  * multiplier);
+		multiplier < JW.RateChange
+			? JW.Rate1.map((value) => value * multiplier)
+			: JW.Rate2.map((value) => value * multiplier);
 	return rate;
 };
 
-//Rate
-divTextRate.setAttribute("id", "JWTextRate");
+// Rate
+/*
+<ons-list-item>
+	<div id="JWtextRate">
+		<div class="row">
+			<div id="JWtextHand">
+ROYAL FLUSH W/O JOKER--<br>
+FIVE OF A KIND---------<br>
+STRAIGHT FLUSH---------<br>
+FOUR OF A KIND---------<br>
+FULL HOUSE-------------<br>
+FLUSH------------------<br>
+STRAIGHT---------------<br>
+THREE OF A KIND--------<br>
+TWO PAIR---------------
+			</div>
+			<div id="JWrate0">
+500<br>100<br>50<br>20<br>8<br>5<br>4<br>2<br>1
+			</div>
+			<div id="JWrate1">
+1000<br>200<br>100<br>40<br>16<br>10<br>8<br>4<br>2
+			</div>
+			<div id="JWrate2">
+1500<br>300<br>150<br>60<br>24<br>15<br>12<br>6<br>3
+			</div>
+			<div id="JWrate3">
+20000<br>2000<br>1000<br>400<br>160<br>100<br>80<br>40<br>20
+			</div>
+			<div id="JWrate4">
+40000<br>4000<br>2000<br>800<br>320<br>200<br>160<br>80<br>40
+			</div>
+		</div>
+		<div class="row">
+			<div id="JWtextCaution">
+ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH
+			</div>
+		</div>
+	</div>
+</ons-list-item>
+*/
+const listItemRate = document.createElement("ons-list-item");
+const divTextRate = document.createElement("div");
+const divRowRate1 = document.createElement("div");
+const divRate1 = document.createElement("div");
+const divRate2 = document.createElement("div");
+const divRate3 = document.createElement("div");
+const divRate4 = document.createElement("div");
+const divRate5 = document.createElement("div");
+
+const divRowRate2 = document.createElement("div");
+const divTextCaution = document.createElement("div");
+
+divTextRate.setAttribute("id", "JWtextRate");
 divTextRate.insertAdjacentHTML("beforeend", JW.Hands.join("<br>"));
-divRate1.setAttribute("id", "JWRate1");
+divRate1.setAttribute("id", "JWrate1");
 divRate1.insertAdjacentHTML("beforeend", calculateRate(1).join("<br>"));
-divRate2.setAttribute("id", "JWRate2");
+divRate2.setAttribute("id", "JWrate2");
 divRate2.insertAdjacentHTML("beforeend", calculateRate(2).join("<br>"));
-divRate3.setAttribute("id", "JWRate3");
+divRate3.setAttribute("id", "JWrate3");
 divRate3.insertAdjacentHTML("beforeend", calculateRate(3).join("<br>"));
-divRate4.setAttribute("id", "JWRate4");
+divRate4.setAttribute("id", "JWrate4");
 divRate4.insertAdjacentHTML("beforeend", calculateRate(20).join("<br>"));
-divRate5.setAttribute("id", "JWRate5");
+divRate5.setAttribute("id", "JWrate5");
 divRate5.insertAdjacentHTML("beforeend", calculateRate(40).join("<br>"));
-divRow1.setAttribute("class", "row");
-divRow1.appendChild(divTextRate);
-divRow1.appendChild(divRate1);
-divRow1.appendChild(divRate2);
-divRow1.appendChild(divRate3);
-divRow1.appendChild(divRate4);
-divRow1.appendChild(divRate5);
+divRowRate1.setAttribute("class", "row");
+divRowRate1.appendChild(divTextRate);
+divRowRate1.appendChild(divRate1);
+divRowRate1.appendChild(divRate2);
+divRowRate1.appendChild(divRate3);
+divRowRate1.appendChild(divRate4);
+divRowRate1.appendChild(divRate5);
 
-divTextCaution.setAttribute("id", "JWTextCaution");
+divTextCaution.setAttribute("id", "JWtextCaution");
 divTextCaution.insertAdjacentHTML("beforeend", JW.Caution);
-divRow2.setAttribute("class", "row");
-divRow2.appendChild(divTextCaution);
+divRowRate2.setAttribute("class", "row");
+divRowRate2.appendChild(divTextCaution);
 
-listItemRate.appendChild(divRow1);
-listItemRate.appendChild(divRow2);
+listItemRate.appendChild(divRowRate1);
+listItemRate.appendChild(divRowRate2);
 
 fragment.appendChild(listItemRate);
 
-//Hand
-divHand1.setAttribute("id", "JWHand1");
+// Hand
+/*
+<ons-row>
+	<ons-col width="20%">
+		<ons-list-item modifier="nodivider">
+			<span id="JWhand1">🂠</span><br>
+			<span class="heldText hidden">HELD</span>
+		</ons-list-item>
+	</ons-col>
+	<ons-col width="20%">
+		<ons-list-item modifier="nodivider">
+			<span id="JWhand2">🂠</span><br>
+			<span class="heldText hidden">HELD</span>
+		</ons-list-item>
+	</ons-col>
+	<ons-col width="20%">
+		<ons-list-item modifier="nodivider">
+			<span id="JWhand3">🂠</span><br>
+			<span class="heldText hidden">HELD</span>
+		</ons-list-item>
+	</ons-col>
+	<ons-col width="20%">
+		<ons-list-item modifier="nodivider">
+			<span id="JWhand4">🂠</span><br>
+			<span class="heldText hidden">HELD</span>
+		</ons-list-item>
+	</ons-col>
+	<ons-col width="20%">
+		<ons-list-item modifier="nodivider">
+			<span id="JWhand5">🂠</span><br>
+			<span class="heldText hidden">HELD</span>
+		</ons-list-item>
+	</ons-col>
+</ons-row>
+*/
+const rowHand = document.createElement("ons-row");
+const colHand1 = document.createElement("ons-col");
+const colHand2 = document.createElement("ons-col");
+const colHand3 = document.createElement("ons-col");
+const colHand4 = document.createElement("ons-col");
+const colHand5 = document.createElement("ons-col");
+const listItemHand1 = document.createElement("ons-list-item");
+const listItemHand2 = document.createElement("ons-list-item");
+const listItemHand3 = document.createElement("ons-list-item");
+const listItemHand4 = document.createElement("ons-list-item");
+const listItemHand5 = document.createElement("ons-list-item");
+const divHand1 = document.createElement("div");
+const divHand2 = document.createElement("div");
+const divHand3 = document.createElement("div");
+const divHand4 = document.createElement("div");
+const divHand5 = document.createElement("div");
+const divHeld1 = document.createElement("div");
+const divHeld2 = document.createElement("div");
+const divHeld3 = document.createElement("div");
+const divHeld4 = document.createElement("div");
+const divHeld5 = document.createElement("div");
+
+divHand1.setAttribute("id", "JWhand1");
 divHand1.insertAdjacentHTML("beforeend", "🂠");
-divHand2.setAttribute("id", "JWHand2");
+divHand2.setAttribute("id", "JWhand2");
 divHand2.insertAdjacentHTML("beforeend", "🂠");
-divHand3.setAttribute("id", "JWHand3");
+divHand3.setAttribute("id", "JWhand3");
 divHand3.insertAdjacentHTML("beforeend", "🂠");
-divHand4.setAttribute("id", "JWHand4");
+divHand4.setAttribute("id", "JWhand4");
 divHand4.insertAdjacentHTML("beforeend", "🂠");
-divHand5.setAttribute("id", "JWHand5");
+divHand5.setAttribute("id", "JWhand5");
 divHand5.insertAdjacentHTML("beforeend", "🂠");
 divHeld1.setAttribute("class", "heldText hidden");
 divHeld1.insertAdjacentHTML("beforeend", "HELD");
@@ -210,447 +240,547 @@ rowHand.appendChild(colHand2);
 rowHand.appendChild(colHand3);
 rowHand.appendChild(colHand4);
 rowHand.appendChild(colHand5);
-console.log(rowHand);
+// console.log(rowHand);
 fragment.appendChild(rowHand);
 
+// Credit
+/*
+<ons-row>
+	<ons-col id="JWtextBottomLeft" width="20%">
+		<div id="JWtextWager">WAGER</div>
+		<div id="JWtextWin">WIN</div>
+		<div id="JWtextPaid">PAID</div>
+	</ons-col>
+	<ons-col id="JWvalueBottomLeft" width="10%">
+		<span id="JWvalueWager"></span>
+		<span id="JWtextWin"></span>
+		<span id="JWvaluePaid"></span>
+	</ons-col>
+	<ons-col id="JWbottomCenter">
+		<div id="JWtextBottomCenter">GOOD LUCK</div>
+	</ons-col>
+	<ons-col id="JWbottomRight" width="30%">
+		<div id="JWtextCredits">CREDITS</div>
+		<div id="JWvalueCredit"></div>
+	</ons-col>
+</ons-row>
+*/
+const rowCredit = document.createElement("ons-row");
+const colTextBottomLeft = document.createElement("ons-col");
+const colValueBottomLeft = document.createElement("ons-col");
+const colBottomCenter = document.createElement("ons-col");
+const colBottomRight = document.createElement("ons-col");
+const divTextWager = document.createElement("div");
+const divTextWin = document.createElement("div");
+const divTextPaid = document.createElement("div");
+const divTextCredits = document.createElement("div");
+const divValueCredit = document.createElement("div");
+const divTextBottomCenter = document.createElement("div");
+const spanValueWager = document.createElement("span");
+const spanValueWin = document.createElement("span");
+const spanValuePaid = document.createElement("span");
+
+divTextWager.setAttribute("id", "JWtextWager");
+divTextWager.insertAdjacentHTML("beforeend", "WAGER");
+divTextWin.setAttribute("id", "JWtextWin");
+divTextWin.insertAdjacentHTML("beforeend", "WIN");
+divTextPaid.setAttribute("id", "JWtextPaid");
+divTextPaid.insertAdjacentHTML("beforeend", "PAID");
+colTextBottomLeft.setAttribute("id", "JWtextBottomLeft");
+colTextBottomLeft.setAttribute("width", "20%");
+colTextBottomLeft.appendChild(divTextWager);
+colTextBottomLeft.appendChild(divTextWin);
+colTextBottomLeft.appendChild(divTextPaid);
+
+spanValueWager.setAttribute("id", "JWvalueWager");
+spanValueWin.setAttribute("id", "JWtextWin");
+spanValuePaid.setAttribute("id", "JWvaluePaid");
+colValueBottomLeft.setAttribute("id", "JWvalueBottomLeft");
+colValueBottomLeft.setAttribute("width", "10%");
+colValueBottomLeft.appendChild(spanValueWager);
+colValueBottomLeft.appendChild(spanValueWin);
+colValueBottomLeft.appendChild(spanValuePaid);
+
+divTextBottomCenter.setAttribute("id", "JWtextBottomCenter");
+colBottomCenter.setAttribute("id", "JWbottomCenter");
+colBottomCenter.appendChild(divTextBottomCenter);
+
+divTextCredits.setAttribute("id", "JWtextCredits");
+divTextCredits.insertAdjacentHTML("beforeend", "CREDITS");
+divValueCredit.setAttribute("id", "JWvalueCredit");
+colBottomRight.setAttribute("id", "JWbottomRight");
+colBottomRight.setAttribute("width", "30%");
+colBottomRight.appendChild(divTextCredits);
+colBottomRight.appendChild(divValueCredit);
+
+rowCredit.appendChild(colTextBottomLeft);
+rowCredit.appendChild(colValueBottomLeft);
+rowCredit.appendChild(colBottomCenter);
+rowCredit.appendChild(colBottomRight);
+fragment.appendChild(rowCredit);
+
 // Button
+/*
+<ons-row>
+	<ons-col id="JWcolButtonLeft" width="33%">
+		<ons-list-item id="JWButtonLeft" tappable>
+			<div id="JWtextButtonLeft">BET ONE</div>
+		</ons-list-item>
+	</ons-col>
+	<ons-col id="JWcolButtonCenter" width="33%">
+		<ons-list-item id="JWButtonCenter" tappable>
+			<div id="JWtextButtonCenter">MAX BET</div>
+		</ons-list-item>
+	</ons-col>
+	<ons-col id="JWcolButtonRight" width="33%">
+		<ons-list-item id="JWButtonRight" tappable>
+			<div id="JWtextButtonRight">DEAL</div>
+		</ons-list-item>
+	</ons-col>
+</ons-row>
+*/
+const rowButton = document.createElement("ons-row");
+const colButtonLeft = document.createElement("ons-col");
+const colButtonCenter = document.createElement("ons-col");
+const colButtonRight = document.createElement("ons-col");
+const listItemButtonLeft = document.createElement("ons-list-item");
+const listItemButtonCenter = document.createElement("ons-list-item");
+const listItemButtonRight = document.createElement("ons-list-item");
+const divButtonLeft = document.createElement("div");
+const divButtonCenter = document.createElement("div");
+const divButtonRight = document.createElement("div");
+
+divButtonLeft.setAttribute("id", "JWtextButtonLeft");
+listItemButtonLeft.setAttribute("id", "JWbuttonLeft");
+listItemButtonLeft.setAttribute("tappable", "");
+colButtonLeft.setAttribute("width", "33%");
+listItemButtonLeft.appendChild(divButtonLeft);
+colButtonLeft.appendChild(listItemButtonLeft);
+
+divButtonCenter.setAttribute("id", "JWtextButtonCenter");
+listItemButtonCenter.setAttribute("id", "JWbuttonCenter");
+listItemButtonCenter.setAttribute("tappable", "");
+colButtonCenter.setAttribute("width", "33%");
+listItemButtonCenter.appendChild(divButtonCenter);
+colButtonCenter.appendChild(listItemButtonCenter);
+
+divButtonRight.setAttribute("id", "JWtextButtonRight");
+listItemButtonRight.setAttribute("id", "JWbuttonRight");
+listItemButtonRight.setAttribute("tappable", "");
+colButtonRight.setAttribute("width", "33%");
+listItemButtonRight.appendChild(divButtonRight);
+colButtonRight.appendChild(listItemButtonRight);
+
+rowButton.appendChild(colButtonLeft);
+rowButton.appendChild(colButtonCenter);
+rowButton.appendChild(colButtonRight);
 fragment.appendChild(rowButton);
 
+const list = document.getElementById("listJokersWild");
 list.appendChild(fragment);
 
-};
+//
+const BET_MIN = 1;
+const BET_MAX = 40;
 
-
-/*
-				<ons-row>
-					<ons-col id="JKWDalignBottomLeft" width="20%">
-						<div id="JKWDtextWager">
-							WAGER <span id="JKWDvalueWager"></span>
-						</div>
-						<div id="JKWDtextWin">
-							WIN <span id="JKWDvalueWin"></span>
-						</div>
-						<div id="JKWDtextPaid">
-							PAID <span id="JKWDvaluePaid"></span>
-						</div>
-					</ons-col>
-					<ons-col>
-						<div id="JKWDtextBottom">
-							GOOD LUCK
-						</div>
-					</ons-col>
-					<ons-col id="JKWDalignBottomRight" width="20%">
-						<div id="JKWDtextCredits">
-							CREDITS
-						</div>
-						<div id="JKWDvalueCredit">
-						</div>
-						<div>
-						</div>
-					</ons-col>
-				</ons-row>
-				<ons-row>
-					<ons-col id="JKWDbuttonLeft" width="33%">
-						<ons-list-item id="JKWDbetOne" tappable>
-							BET ONE
-						</ons-list-item>
-					</ons-col>
-					<ons-col id="JKWDbuttonCenter" width="33%">
-						<ons-list-item id="JKWDmaxBet" tappable>
-							MAX BET
-						</ons-list-item>
-					</ons-col>
-					<ons-col id="JKWDbuttonRight" width="33%">
-						<ons-list-item tappable>
-							<span id="JKWDdeal"></span>
-							<span id="JKWDdraw"></span>
-						</ons-list-item>
-					</ons-col>
-				</ons-row>
-
-				<ons-list-item>
-					<div id="JKWDtextRate">
-						<div class="row">
-							<div id="JKWDtextHand">
-ROYAL FLUSH W/O JOKER--<br>
-FIVE OF A KIND---------<br>
-STRAIGHT FLUSH---------<br>
-FOUR OF A KIND---------<br>
-FULL HOUSE-------------<br>
-FLUSH------------------<br>
-STRAIGHT---------------<br>
-THREE OF A KIND--------<br>
-TWO PAIR---------------
-							</div>
-							<div id="JKWDrate0">
-500<br>100<br>50<br>20<br>8<br>5<br>4<br>2<br>1
-							</div>
-							<div id="JKWDrate1">
-1000<br>200<br>100<br>40<br>16<br>10<br>8<br>4<br>2
-							</div>
-							<div id="JKWDrate2">
-1500<br>300<br>150<br>60<br>24<br>15<br>12<br>6<br>3
-							</div>
-							<div id="JKWDrate3">
-20000<br>2000<br>1000<br>400<br>160<br>100<br>80<br>40<br>20
-							</div>
-							<div id="JKWDrate4">
-40000<br>4000<br>2000<br>800<br>320<br>200<br>160<br>80<br>40
-							</div>
-						</div>
-						<div class="row">
-							<div id="JKWDtextCaution">
-ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH
-							</div>
-						</div>
-					</div>
-				</ons-list-item>
-				<ons-row>
-					<ons-col width="20%">
-						<ons-list-item modifier="nodivider">
-							<div id="JKWDhand0">🂠</div>
-							<div class="holdText hidden">HOLD</div>
-						</ons-list-item>
-					</ons-col>
-					<ons-col width="20%">
-						<ons-list-item modifier="nodivider">
-							<span id="JKWDhand1">🂠</span><br>
-							<span class="holdText hidden">HOLD</span>
-						</ons-list-item>
-					</ons-col>
-					<ons-col width="20%">
-						<ons-list-item modifier="nodivider">
-							<span id="JKWDhand2">🂠</span><br>
-							<span class="holdText hidden">HOLD</span>
-						</ons-list-item>
-					</ons-col>
-					<ons-col width="20%">
-						<ons-list-item modifier="nodivider">
-							<span id="JKWDhand3">🂠</span><br>
-							<span class="holdText hidden">HOLD</span>
-						</ons-list-item>
-					</ons-col>
-					<ons-col width="20%">
-						<ons-list-item modifier="nodivider">
-							<span id="JKWDhand4">🂠</span><br>
-							<span class="holdText hidden">HOLD</span>
-						</ons-list-item>
-					</ons-col>
-				</ons-row>
-
-*/
-
-/*
-	startJKWD();
-	「DEAL」を押したときに発火。
-	連コ、カードの初期化、カードの表示、判定の呼び出しまでする。
-*/
-const startJKWD = () =>
+class ContextMario
 {
-	if(wager == 0)
+	constructor()
 	{
-		return;
-	}
-	flagPlayed = true;
-	if(flagPaid)
-	{
-		flagPaid = false;
-	}
-	else if(!flagPaid)
-	{
-		credit -= wager;
-		updateJKWD();
+		// きのこを食べる
+		this.EVENT_EAT_MUSHROOM = 0;
+		// フラワーを食べる
+		this.EVENT_EAT_FLOWER = 1;
+		// ノコノコに当たる
+		this.EVENT_DAMAGE = 2;
 	}
 
-	// トランプを初期化する。
-	initCard(53);
-
-	let i = 0;
-	let loopCount = 0;
-
-	const timer = setInterval(() =>
+	adventures()
 	{
-		if(cards[i].mark == 0 || cards[i].mark == 1 || cards[i].mark == 4)
+		console.log("game start");
+		this.state = new MiniMario();
+		const gameevent = [0, 1, 2, 1, 1, 2, 2, 2];
+		for(const value of gameevent)
 		{
-			removeClass(`#JKWDhand${i}`, "red");
-			addClass(`#JKWDhand${i}`, "black");
-		}
-		else
-		{
-			removeClass(`#JKWDhand${i}`, "black");
-			addClass(`#JKWDhand${i}`, "red");
-		}
-		changeText(`#JKWDhand${i}`, illust[cards[i].mark][cards[i].number]);
-
-		loopCount++;
-		i++;
-		if(!(loopCount < 5))
-		{
-			i = 0;
-			changeText("#JKWDdeal", "");
-			changeText("#JKWDdraw", "DRAW");
-			setOnclick("#JKWDbuttonRight", drawJKWD);
-			clearInterval(timer);
-		}
-	}, 100);
-};
-
-/*
-	drawJKWD();
-	setsumei kakou
-*/
-const drawJKWD = () =>
-{
-	let JKWDholds;
-	let i = 0;
-	let loopCount = 0;
-
-	let timer = setInterval(() =>
-	{
-		JKWDholds = document.getElementById("pageJokersWild").getElementsByClassName("holdText");
-
-		if(JKWDholds[i].classList.contains("hidden"))
-		{
-			console.log(JKWDholds[i].className);
-			changeText(`#JKWDhand${i}`, illust[cards[5 + i].mark][cards[5 + i].number]);
-			cards[i].mark = cards[5 + i].mark;
-			cards[i].number = cards[5 + i].number;
-
-			if(cards[i].mark == 0 || cards[i].mark == 1 || cards[i].mark == 4)
+			this.state.sayState();
+			if(this.EVENT_EAT_MUSHROOM === value)
 			{
-				removeClass(`#JKWDhand${i}`, "red");
-				addClass(`#JKWDhand${i}`, "black");
+				this.state = this.state.eatMushroom();
+			}
+			else if(this.EVENT_EAT_FLOWER === value)
+			{
+				this.state = this.state.eatFlower();
+			}
+			else if(this.EVENT_DAMAGE === value)
+			{
+				this.state = this.state.beDamaged();
 			}
 			else
 			{
-				removeClass(`#JKWDhand${i}`, "black");
-				addClass(`#JKWDhand${i}`, "red");
+				console.log("例外");
+			}
+		}
+	}
+}
+
+class Mario
+{
+	constructor()
+	{
+		this.Mushroom = "きのこを食べた！";
+		this.Flower = "フラワーを食べた！";
+		this.damage = "ノコノコに当たった！";
+	}
+
+	eatMushroom()
+	{
+		console.log(`状態遷移(アクション) ---> ${this.Mushroom}`);
+	}
+
+	eatFlower()
+	{
+		console.log(`状態遷移(アクション) ---> ${this.Flower}`);
+	}
+
+	beDamaged()
+	{
+		console.log(`状態遷移(アクション) ---> ${this.damage}`);
+	}
+
+	sayState()
+	{
+		console.log(`this is ${this.constructor.name}`);
+	}
+}
+
+class MiniMario extends Mario
+{
+	eatMushroom()
+	{
+		super.eatMushroom();
+
+		return new BigMario();
+	}
+
+	eatFlower()
+	{
+		super.eatFlower();
+
+		return new FireMario();
+	}
+
+	beDamaged()
+	{
+		super.beDamaged();
+		console.log("game over!!");
+	}
+
+	sayState()
+	{
+		super.sayState();
+	}
+}
+
+class BigMario extends Mario
+{
+	eatMushroom()
+	{
+		super.eatMushroom();
+
+		return new BigMario();
+	}
+
+	eatFlower()
+	{
+		super.eatFlower();
+
+		return new FireMario();
+	}
+
+	beDamaged()
+	{
+		super.beDamaged();
+
+		return new MiniMario();
+	}
+
+	sayState()
+	{
+		super.sayState();
+	}
+}
+
+class FireMario extends Mario
+{
+	eatMushroom()
+	{
+		super.eatMushroom();
+
+		return new FireMario();
+	}
+
+	eatFlower()
+	{
+		super.eatFlower();
+
+		return new FireMario();
+	}
+
+	beDamaged()
+	{
+		super.beDamaged();
+
+		return new BigMario();
+	}
+
+	sayState()
+	{
+		super.sayState();
+	}
+}
+
+//	const Game = new ContextMario();
+//	Game.adventures();
+
+class ContextJW
+{
+	constructor()
+	{
+		this.cards = [];
+		this.illust =
+		[
+			["", "🂡", "🂢", "🂣", "🂤", "🂥", "🂦", "🂧", "🂨", "🂩", "🂪", "🂫", "🂭", "🂮"],
+			["", "🃑", "🃒", "🃓", "🃔", "🃕", "🃖", "🃗", "🃘", "🃙", "🃚", "🃛", "🃝", "🃞"],
+			["", "🂱", "🂲", "🂳", "🂴", "🂵", "🂶", "🂷", "🂸", "🂹", "🂺", "🂻", "🂽", "🂾"],
+			["", "🃁", "🃂", "🃃", "🃄", "🃅", "🃆", "🃇", "🃈", "🃉", "🃊", "🃋", "🃍", "🃎"],
+			["🃟"],
+			["🂿"],
+			["🂠"]
+		];
+		this.credit = 500;
+		this.wager = 0;
+		this.win = 0;
+		this.paid = 0;
+	}
+
+	get credit()
+	{
+		return this._credit;
+	}
+	set credit(value)
+	{
+		this._credit = this._credit - value;
+	}
+	get wager()
+	{
+		return this._wager;
+	}
+	set wager(value)
+	{
+		this._wager = this._wager + value;
+	}
+	get win()
+	{
+		return this._win;
+	}
+	set win(value)
+	{
+		this._win = value;
+	}
+	get paid()
+	{
+		return this._paid;
+	}
+	set paid(value)
+	{
+		this._paid = value;
+	}
+
+	startGame()
+	{
+		console.log("JW: startBet()");
+		this.state = new bet();
+		// this.state.domButtonLeft.addEventListener("click", this.state.pushButtonLeft);
+		this.state.domButtonLeft.onclick = this.state.pushButtonLeft;
+	}
+}
+
+class UI
+{
+	constructor()
+	{
+		this.textPushButtonLeft = "JW: push button left";
+		this.textPushButtonCenter = "JW: push button center";
+		this.textPushButtonRight = "JW: push button right";
+		this.textPushCard1 = "JW: push card 1";
+		this.textPushCard2 = "JW: push card 2";
+		this.textPushCard3 = "JW: push card 3";
+		this.textPushCard4 = "JW: push card 4";
+		this.textPushCard5 = "JW: push card 5";
+
+		this.domButtonLeft = document.getElementById("JWbuttonLeft");
+		this.domTextButtonLeft = document.getElementById("JWtextButtonLeft");
+		this.domTextButtonCenter = document.getElementById("JWtextButtonCenter");
+		this.domTextButtonRight = document.getElementById("JWtextButtonRight");
+		this.domTextBottomCenter = document.getElementById("JWtextBottomCenter");
+	}
+
+	pushButtonLeft()
+	{
+		console.log(this.textPushButtonLeft);
+	}
+	pushButtonCenter()
+	{
+		console.log(this.textPushButtonCenter);
+	}
+	pushButtonRight()
+	{
+		console.log(this.textPushButtonRight);
+	}
+	pushCard1()
+	{
+		console.log(this.textPushCard1);
+	}
+	pushCard2()
+	{
+		console.log(this.textPushCard2);
+	}
+	pushCard3()
+	{
+		console.log(this.textPushCard3);
+	}
+	pushCard4()
+	{
+		console.log(this.textPushCard4);
+	}
+	pushCard5()
+	{
+		console.log(this.textPushCard5);
+	}
+}
+
+class bet extends UI
+{
+	constructor()
+	{
+		super();
+
+		this.textButtonLeft = "BET ONE";
+		this.textButtonCenter = "MAX BET";
+		this.textButtonRight = "DEAL";
+		this.textBottomCenter = "GOOD LUCK";
+
+		this.domTextButtonLeft.textContent = this.textButtonLeft;
+		this.domTextButtonCenter.textContent = this.textButtonCenter;
+		this.domTextButtonRight.textContent = this.textButtonRight;
+		this.domTextBottomCenter.textContent = this.textBottomCenter;
+	}
+
+	// BET ONE
+	pushButtonLeft()
+	{
+		super.pushButtonLeft();
+
+		const {credit, wager} = this;
+		if(credit >= BET_MIN && wager < BET_MAX)
+		{
+			this.credit = 1;
+			this.wager = 1;
+		}
+		console.log("bet: pushButtonLeft");
+		return new bet();
+	}
+
+	// MAX BET
+	pushButtonCenter()
+	{
+		super.pushButtonCenter();
+
+		const {credit, wager} = this;
+		if(credit + wager >= BET_MIN && wager < BET_MAX)
+		{
+			this.credit = BET_MAX - wager;
+			this.wager = BET_MAX - wager;
+		}
+	}
+
+	// DEAL
+	pushButtonRight()
+	{
+		super.pushButtonRight();
+
+		console.log("return new game()");
+		// return new game();
+	}
+}
+
+/*
+class game
+{
+	constructor()
+	{
+	}
+	generateCard(mark, number)
+	{
+		this.mark = mark;
+		this.number = number;
+	}
+
+	initCard(cardNum)
+	{
+		let tmpCard;
+		let i, j, r, x = 0;
+
+		// カードの準備
+		for(i = 0; i < 4; i++)
+		{
+			for(j = 1; j <= 13; j++)
+			{
+				this.cards[x] = new generateCard(i, j);
+				x++;
+			}
+		}
+		// jokerを含むゲームの場合、illust[4][0]の黒ジョーカーを用意する。
+		if(cardNum > 52)
+		{
+			this.cards[x] = new generateCard(4, 0);
+			x++;
+			// jokerを2枚含むゲームの場合、illust[5][0]の赤ジョーカーを用意する。
+			if(cardNum > 53)
+			{
+				this.cards[x] = new generateCard(5, 0);
 			}
 		}
 
-		loopCount++;
-		i++;
-		if(!(loopCount < 5))
+		// シャッフルしてます
+		for(i = 0; i <= 2; i++)
 		{
-			i = 0;
-			judgeJKWD();
-			clearInterval(timer);
+			for(j = 0; j < cardNum; j++)
+			{
+				r = Math.floor(Math.random() * cardNum);
+				tmpCard = this.cards[j];
+				this.cards[j] = this.cards[r];
+				this.cards[r] = tmpCard;
+			}
 		}
-	}, 100);
-};
+	}
+}
 
-/*
-	judgeJKWD();
-	役の判定をする。
-*/
-const judgeJKWD = () =>
+class gameResult
 {
-	let judge;
-	let i;
-	let bucketMarks = [0, 0, 0, 0, 0, 0];
-	let bucketNumbers = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	let hasJoker = false;
-	let hasRoyal = false;
-	let hasFlush = false;
-	let hasStraight = false;
-	let hasFour = false;
-	let hasThree = false;
-	let hasTwo = false;
-	let hasTwoPair = false;
+	constructor()
+	{
+	}
+}
 
-	for(i = 0; i < 5; i++)
-	{
-		bucketMarks[cards[i].mark]++;
-		bucketNumbers[cards[i].number]++;
-	}
-	// console.log("bucketMarks: " + bucketMarks);
-	// console.log("bucketNumbers: " + bucketNumbers);
-
-	// ジョーカーが含まれているか
-	if(bucketNumbers[0] > 0)
-	{
-		console.log(`  hasJoker: ${bucketNumbers[0]}`);
-		hasJoker = true;
-	}
-	// ロイヤルフラッシュの数字の組み合わせか
-	if(bucketNumbers[1] * bucketNumbers[10] * bucketNumbers[11] * bucketNumbers[12] * bucketNumbers[13] == 1)
-	{
-		console.log(`  hasRoyal: ${bucketNumbers[1]} ${bucketNumbers[10]} ${bucketNumbers[11]} ${bucketNumbers[12]} ${bucketNumbers[13]}`);
-		hasRoyal = true;
-	}
-	// 同じマークが5枚揃っているか
-	if(bucketMarks.some(function(element){return element + this[0] == 5;}, bucketNumbers))
-	{
-		console.log(`  hasFlush: ${bucketMarks[0]} ${bucketMarks[1]} ${bucketMarks[2]} ${bucketMarks[3]} ${bucketMarks[4]} ${bucketMarks[5]}`);
-		hasFlush = true;
-	}
-	// 数字が5連番か
-	if(bucketNumbers.lastIndexOf(1) - bucketNumbers.indexOf(1, 1) < 5 &&
-	   bucketNumbers.filter(function(element){return element == 1;}).length + bucketNumbers[0] >= 5)
-	{
-		console.log(`  hasStraight: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-		hasStraight = true;
-	}
-	// 同じ数字が4枚あるか
-	if(bucketNumbers.some(function(element){return element == 4;}))
-	{
-		console.log(`  hasFour: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-		hasFour = true;
-	}
-	// 同じ数字が3枚あるか
-	if(bucketNumbers.some(function(element){return element == 3;}))
-	{
-		console.log(`  hasThree: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-		hasThree = true;
-	}
-	// 同じ数字が2枚あるか
-	if(bucketNumbers.some(function(element){return element == 2;}))
-	{
-		console.log(`  hasTwo: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-		hasTwo = true;
-	}
-	// 同じ数字が2枚を2組持っているか
-	if(bucketNumbers.filter(function(element){return element >= 2;}).length >= 2)
-	{
-		console.log(`  hasTwoPair: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
-		hasTwoPair = true;
-	}
-
-	// ROYAL FLUSH W/O JOKER
-	if(!hasJoker && hasRoyal && hasFlush)
-	{
-		judge = 500;
-	}
-	// FIVE OF A KIND
-	else if(hasJoker && hasFour)
-	{
-		judge = 100;
-	}
-	// STRAIGHT FLUSH
-	else if(hasFlush && hasStraight)
-	{
-		judge = 50;
-	}
-	// FOUR OF A KIND
-	else if(hasFour || (hasJoker && hasThree))
-	{
-		judge = 20;
-	}
-	// FULL HOUSE
-	else if((hasJoker && hasTwoPair) || (hasThree && hasTwoPair))
-	{
-		judge = 8;
-	}
-	// FLUSH
-	else if(hasFlush)
-	{
-		judge = 5;
-	}
-	// STRAIGHT
-	else if(hasStraight)
-	{
-		judge = 4;
-	}
-	// THREE OF A KIND
-	else if(hasThree || (hasTwo && hasJoker))
-	{
-		judge = 2;
-	}
-	// TWO PAIR
-	else if(hasTwoPair)
-	{
-		judge = 1;
-	}
-	// はずれ
-	else
-	{
-		judge = 0;
-	}
-
-	if(judge == 0)
-	{
-		changeText("#JKWDtextBottom", "GAME OVER");
-		changeText("#JKWDdraw", "");
-		changeText("#JKWDdeal", "DEAL");
-		setOnclick("#JKWDbuttonRight", startJKWD);
-	}
-	else if(judge > 0)
-	{
-		changeText("#JKWDtextBottom", "WINNER !");
-		if(judge == 500)
-		{
-			win = judge * (wager + Math.floor(wager / 10) * 10);
-		}
-		else
-		{
-			win = judge * wager;
-		}
-		updateJKWD();
-	}
-
-	hasJoker = false;
-	hasRoyal = false;
-	hasFlush = false;
-	hasStraight = false;
-	hasFour = false;
-	hasThree = false;
-	hasTwo = false;
-	hasTwoPair = false;
-	judge = 0;
-
-	flagPlayed = false;
-};
-
-const payOutJKWD = (judge) =>
+class payout
 {
-	return 0;
-};
-
-/*
-	betJKWD(掛け金);
-	「BET ONE」、「MAX BET」を押したときに発火。
-*/
-const betJKWD = (bet) =>
-{
-	// クレジット投入中フラグをたてる
-	flagPaid = true;
-
-	// まだプレイしていないとき、1枚以上投入したあとはここを通る
-	if(!flagPlayed)
+	constructor()
 	{
-		let tmpBet;
-		if(bet == 40)
-		{
-			tmpBet = wager;
-			wager = wager + (40 - tmpBet);
-			credit = credit - (40 - tmpBet);
-		}
-		else if(wager < 40)
-		{
-			wager += bet;
-			credit -= bet;
-		}
 	}
-	// 連続してプレイする時は最初にここを通る
-	else if(flagPlayed)
-	{
-		flagPlayed = false;
-		changeText("#JKWDtextBottom", "GOOD LUCK");
-		wager = bet;
-		credit -= bet;
-	}
-	updateJKWD();
-};
-
-/*
-	updateJKWD();
-	wager, win, paid, creditsの表示を更新する。
+}
 */
 
-let updateJKWD = () =>
-{
-	changeText("#JKWDvalueWager", wager.padding(" ", 2));
-	changeText("#JKWDvalueWin", win.padding(" ", 5));
-	changeText("#JKWDvaluePaid", paid.padding(" ", 4));
-	changeText("#JKWDvalueCredit", credit);
+const gameJW = new ContextJW();
+gameJW.startGame();
 };
