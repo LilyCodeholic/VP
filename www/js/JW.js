@@ -17,38 +17,43 @@ TWO PAIR               1
 */
 const funcJW = () =>
 {
-const JW =
+class setJW
 {
-	"Hands":
-	[
-		"ROYAL FLUSH W/O JOKER--",
-		"FIVE OF A KIND---------",
-		"STRAIGHT FLUSH---------",
-		"FOUR OF A KIND---------",
-		"FULL HOUSE-------------",
-		"FLUSH------------------",
-		"STRAIGHT---------------",
-		"THREE OF A KIND--------",
-		"TWO PAIR---------------",
-	],
-	"Caution": "ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH",
-	"Rate1": [500, 100, 50, 20, 8, 5, 4, 2, 1],
-	"Rate2": [1000, 100, 50, 20, 8, 5, 4, 2, 1],
-	"RateChange": 5,
-	"MaxBet": 40,
-};
+	constructor()
+	{
+		this.hands = 
+		[
+			"ROYAL FLUSH W/O JOKER--",
+			"FIVE OF A KIND---------",
+			"STRAIGHT FLUSH---------",
+			"FOUR OF A KIND---------",
+			"FULL HOUSE-------------",
+			"FLUSH------------------",
+			"STRAIGHT---------------",
+			"THREE OF A KIND--------",
+			"TWO PAIR---------------",
+		];
+		this.caution = "ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH";
+		this.rate1 = [500, 100, 50, 20, 8, 5, 4, 2, 1];
+		this.rate2 = [1000, 100, 50, 20, 8, 5, 4, 2, 1];
+		this.rateChange = 5;
+		this.maxBet = 40;
+		this.minBet = 1;
+	}
+
+	calculateRate(multiplier)
+	{
+		const rate =
+			multiplier < this.rateChange
+				? this.rate1.map((value) => value * multiplier)
+				: this.rate2.map((value) => value * multiplier);
+		return rate;
+	}
+}
+const JW = new setJW();
 
 // DOM生成
 const fragment = document.createDocumentFragment();
-
-const calculateRate = (multiplier) =>
-{
-	const rate =
-		multiplier < JW.RateChange
-			? JW.Rate1.map((value) => value * multiplier)
-			: JW.Rate2.map((value) => value * multiplier);
-	return rate;
-};
 
 // Rate
 /*
@@ -103,17 +108,17 @@ const divRowRate2 = document.createElement("div");
 const divTextCaution = document.createElement("div");
 
 divTextRate.setAttribute("id", "JWtextRate");
-divTextRate.insertAdjacentHTML("beforeend", JW.Hands.join("<br>"));
+divTextRate.insertAdjacentHTML("beforeend", JW.hands.join("<br>"));
 divRate1.setAttribute("id", "JWrate1");
-divRate1.insertAdjacentHTML("beforeend", calculateRate(1).join("<br>"));
+divRate1.insertAdjacentHTML("beforeend", JW.calculateRate(1).join("<br>"));
 divRate2.setAttribute("id", "JWrate2");
-divRate2.insertAdjacentHTML("beforeend", calculateRate(2).join("<br>"));
+divRate2.insertAdjacentHTML("beforeend", JW.calculateRate(2).join("<br>"));
 divRate3.setAttribute("id", "JWrate3");
-divRate3.insertAdjacentHTML("beforeend", calculateRate(3).join("<br>"));
+divRate3.insertAdjacentHTML("beforeend", JW.calculateRate(3).join("<br>"));
 divRate4.setAttribute("id", "JWrate4");
-divRate4.insertAdjacentHTML("beforeend", calculateRate(20).join("<br>"));
+divRate4.insertAdjacentHTML("beforeend", JW.calculateRate(20).join("<br>"));
 divRate5.setAttribute("id", "JWrate5");
-divRate5.insertAdjacentHTML("beforeend", calculateRate(40).join("<br>"));
+divRate5.insertAdjacentHTML("beforeend", JW.calculateRate(40).join("<br>"));
 divRowRate1.setAttribute("class", "row");
 divRowRate1.appendChild(divTextRate);
 divRowRate1.appendChild(divRate1);
@@ -123,7 +128,7 @@ divRowRate1.appendChild(divRate4);
 divRowRate1.appendChild(divRate5);
 
 divTextCaution.setAttribute("id", "JWtextCaution");
-divTextCaution.insertAdjacentHTML("beforeend", JW.Caution);
+divTextCaution.insertAdjacentHTML("beforeend", JW.caution);
 divRowRate2.setAttribute("class", "row");
 divRowRate2.appendChild(divTextCaution);
 
@@ -243,7 +248,7 @@ rowHand.appendChild(colHand5);
 // console.log(rowHand);
 fragment.appendChild(rowHand);
 
-// Credit
+// Credits
 /*
 <ons-row>
 	<ons-col id="JWtextBottomLeft" width="20%">
@@ -261,11 +266,11 @@ fragment.appendChild(rowHand);
 	</ons-col>
 	<ons-col id="JWbottomRight" width="30%">
 		<div id="JWtextCredits">CREDITS</div>
-		<div id="JWvalueCredit"></div>
+		<div id="JWvalueCredits"></div>
 	</ons-col>
 </ons-row>
 */
-const rowCredit = document.createElement("ons-row");
+const rowCredits = document.createElement("ons-row");
 const colTextBottomLeft = document.createElement("ons-col");
 const colValueBottomLeft = document.createElement("ons-col");
 const colBottomCenter = document.createElement("ons-col");
@@ -274,11 +279,11 @@ const divTextWager = document.createElement("div");
 const divTextWin = document.createElement("div");
 const divTextPaid = document.createElement("div");
 const divTextCredits = document.createElement("div");
-const divValueCredit = document.createElement("div");
 const divTextBottomCenter = document.createElement("div");
-const spanValueWager = document.createElement("span");
-const spanValueWin = document.createElement("span");
-const spanValuePaid = document.createElement("span");
+const divValueWager = document.createElement("div");
+const divValueWin = document.createElement("div");
+const divValuePaid = document.createElement("div");
+const divValueCredits = document.createElement("div");
 
 divTextWager.setAttribute("id", "JWtextWager");
 divTextWager.insertAdjacentHTML("beforeend", "WAGER");
@@ -292,14 +297,14 @@ colTextBottomLeft.appendChild(divTextWager);
 colTextBottomLeft.appendChild(divTextWin);
 colTextBottomLeft.appendChild(divTextPaid);
 
-spanValueWager.setAttribute("id", "JWvalueWager");
-spanValueWin.setAttribute("id", "JWtextWin");
-spanValuePaid.setAttribute("id", "JWvaluePaid");
+divValueWager.setAttribute("id", "JWvalueWager");
+divValueWin.setAttribute("id", "JWvalueWin");
+divValuePaid.setAttribute("id", "JWvaluePaid");
 colValueBottomLeft.setAttribute("id", "JWvalueBottomLeft");
 colValueBottomLeft.setAttribute("width", "10%");
-colValueBottomLeft.appendChild(spanValueWager);
-colValueBottomLeft.appendChild(spanValueWin);
-colValueBottomLeft.appendChild(spanValuePaid);
+colValueBottomLeft.appendChild(divValueWager);
+colValueBottomLeft.appendChild(divValueWin);
+colValueBottomLeft.appendChild(divValuePaid);
 
 divTextBottomCenter.setAttribute("id", "JWtextBottomCenter");
 colBottomCenter.setAttribute("id", "JWbottomCenter");
@@ -307,17 +312,17 @@ colBottomCenter.appendChild(divTextBottomCenter);
 
 divTextCredits.setAttribute("id", "JWtextCredits");
 divTextCredits.insertAdjacentHTML("beforeend", "CREDITS");
-divValueCredit.setAttribute("id", "JWvalueCredit");
+divValueCredits.setAttribute("id", "JWvalueCredits");
 colBottomRight.setAttribute("id", "JWbottomRight");
 colBottomRight.setAttribute("width", "30%");
 colBottomRight.appendChild(divTextCredits);
-colBottomRight.appendChild(divValueCredit);
+colBottomRight.appendChild(divValueCredits);
 
-rowCredit.appendChild(colTextBottomLeft);
-rowCredit.appendChild(colValueBottomLeft);
-rowCredit.appendChild(colBottomCenter);
-rowCredit.appendChild(colBottomRight);
-fragment.appendChild(rowCredit);
+rowCredits.appendChild(colTextBottomLeft);
+rowCredits.appendChild(colValueBottomLeft);
+rowCredits.appendChild(colBottomCenter);
+rowCredits.appendChild(colBottomRight);
+fragment.appendChild(rowCredits);
 
 // Button
 /*
@@ -380,8 +385,6 @@ const list = document.getElementById("listJokersWild");
 list.appendChild(fragment);
 
 //
-const BET_MIN = 1;
-const BET_MAX = 40;
 
 class ContextMario
 {
@@ -557,27 +560,16 @@ class ContextJW
 			["🂿"],
 			["🂠"]
 		];
-		this.credit = 500;
-		this.wager = 0;
-		this.win = 0;
-		this.paid = 0;
 	}
 
-	get credit()
-	{
-		return this._credit;
-	}
-	set credit(value)
-	{
-		this._credit = this._credit - value;
-	}
 	get wager()
 	{
 		return this._wager;
 	}
 	set wager(value)
 	{
-		this._wager = this._wager + value;
+		this._wager = value;
+		this.state.domValueWager.textContent = value;
 	}
 	get win()
 	{
@@ -586,6 +578,7 @@ class ContextJW
 	set win(value)
 	{
 		this._win = value;
+		this.state.domValueWin.textContent = value;
 	}
 	get paid()
 	{
@@ -594,14 +587,27 @@ class ContextJW
 	set paid(value)
 	{
 		this._paid = value;
+		this.state.domValuePaid.textContent = value;
+	}
+	get credits()
+	{
+		return this._credits;
+	}
+	set credits(value)
+	{
+		this._credits =  value;
+		this.state.domValueCredits.textContent = value;
 	}
 
-	startGame()
+	startGame = () =>
 	{
 		console.log("JW: startBet()");
 		this.state = new bet();
-		// this.state.domButtonLeft.addEventListener("click", this.state.pushButtonLeft);
-		this.state.domButtonLeft.onclick = this.state.pushButtonLeft;
+
+		this.wager = 0;
+		this.win = 0;
+		this.paid = 0;
+		this.credits = 500;
 	}
 }
 
@@ -609,33 +615,37 @@ class UI
 {
 	constructor()
 	{
-		this.textPushButtonLeft = "JW: push button left";
-		this.textPushButtonCenter = "JW: push button center";
-		this.textPushButtonRight = "JW: push button right";
-		this.textPushCard1 = "JW: push card 1";
-		this.textPushCard2 = "JW: push card 2";
-		this.textPushCard3 = "JW: push card 3";
-		this.textPushCard4 = "JW: push card 4";
-		this.textPushCard5 = "JW: push card 5";
+		this.domRate1 = document.getElementById("JWrate1");
+		this.domRate2 = document.getElementById("JWrate2");
+		this.domRate3 = document.getElementById("JWrate3");
+		this.domRate4 = document.getElementById("JWrate4");
+		this.domRate5 = document.getElementById("JWrate5");
+
+		this.domValueWager = document.getElementById("JWvalueWager");
+		this.domValueWin = document.getElementById("JWvalueWin");
+		this.domValuePaid = document.getElementById("JWvaluePaid");
+		this.domValueCredits = document.getElementById("JWvalueCredits");
+		this.domTextBottomCenter = document.getElementById("JWtextBottomCenter");
 
 		this.domButtonLeft = document.getElementById("JWbuttonLeft");
+		this.domButtonCenter = document.getElementById("JWbuttonCenter");
+		this.domButtonRight = document.getElementById("JWbuttonRight");
 		this.domTextButtonLeft = document.getElementById("JWtextButtonLeft");
 		this.domTextButtonCenter = document.getElementById("JWtextButtonCenter");
 		this.domTextButtonRight = document.getElementById("JWtextButtonRight");
-		this.domTextBottomCenter = document.getElementById("JWtextBottomCenter");
 	}
 
 	pushButtonLeft()
 	{
-		console.log(this.textPushButtonLeft);
+		console.log(`${this.stateName}: push ${this.domButtonLeft.id}`);
 	}
 	pushButtonCenter()
 	{
-		console.log(this.textPushButtonCenter);
+		console.log(`${this.stateName}: push ${this.domButtonCenter.id}`);
 	}
 	pushButtonRight()
 	{
-		console.log(this.textPushButtonRight);
+		console.log(`${this.stateName}: push ${this.domButtonRight.id}`);
 	}
 	pushCard1()
 	{
@@ -664,6 +674,7 @@ class bet extends UI
 	constructor()
 	{
 		super();
+		this.stateName = "bet";
 
 		this.textButtonLeft = "BET ONE";
 		this.textButtonCenter = "MAX BET";
@@ -674,44 +685,51 @@ class bet extends UI
 		this.domTextButtonCenter.textContent = this.textButtonCenter;
 		this.domTextButtonRight.textContent = this.textButtonRight;
 		this.domTextBottomCenter.textContent = this.textBottomCenter;
+
+		this.domButtonLeft.onclick = this.pushButtonLeft;
+		this.domButtonCenter.onclick = this.pushButtonCenter;
+		this.domButtonRight.onclick = this.pushButtonRight;
 	}
 
 	// BET ONE
-	pushButtonLeft()
+	pushButtonLeft = () =>
 	{
+		//console.log(Object.getOwnPropertyNames(UI.prototype));
 		super.pushButtonLeft();
 
-		const {credit, wager} = this;
-		if(credit >= BET_MIN && wager < BET_MAX)
+		const {credits, wager} = gameJW;
+		if(credits >= JW.minBet && wager < JW.maxBet)
 		{
-			this.credit = 1;
-			this.wager = 1;
+			gameJW.credits = credits - 1;
+			gameJW.wager = wager + 1;
 		}
-		console.log("bet: pushButtonLeft");
+
 		return new bet();
-	}
+	};
 
 	// MAX BET
-	pushButtonCenter()
+	pushButtonCenter = () =>
 	{
 		super.pushButtonCenter();
 
-		const {credit, wager} = this;
-		if(credit + wager >= BET_MIN && wager < BET_MAX)
+		const {credits, wager} = gameJW;
+		if(credits + wager >= JW.minBet && wager < JW.maxBet)
 		{
-			this.credit = BET_MAX - wager;
-			this.wager = BET_MAX - wager;
+			gameJW.credits = credits - (JW.MaxBet - wager);
+			gameJW.wager = JW.MaxBet;
 		}
-	}
+
+		return new bet();
+	};
 
 	// DEAL
-	pushButtonRight()
+	pushButtonRight = () =>
 	{
 		super.pushButtonRight();
 
 		console.log("return new game()");
 		// return new game();
-	}
+	};
 }
 
 /*
