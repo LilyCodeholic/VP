@@ -37,10 +37,12 @@ class setJW
 		this.rate1 = [500, 100, 50, 20, 8, 5, 4, 2, 1];
 		this.rate2 = [1000, 100, 50, 20, 8, 5, 4, 2, 1];
 		this.rateChange = 5;
+		this.rotateRate4 = 20;
 		this.maxBet = 40;
 		this.minBet = 1;
 	}
 
+	// wagerとrateをかけた配列を返す
 	calculateRate(multiplier)
 	{
 		const rate =
@@ -608,7 +610,7 @@ class ContextJW
 		this.win = 0;
 		this.paid = 0;
 		this.credits = 500;
-	}
+	};
 }
 
 class UI
@@ -667,6 +669,16 @@ class UI
 	{
 		console.log(this.textPushCard5);
 	}
+
+	changeRate()
+	{
+		const {wager} = gameJW;
+		console.log(wager);
+		this.domRate1.innerHTML = JW.calculateRate(wager + 0).join("<br>");
+		this.domRate2.innerHTML = JW.calculateRate(wager + 1).join("<br>");
+		this.domRate3.innerHTML = JW.calculateRate(wager + 2).join("<br>");
+		this.domRate4.innerHTML = JW.calculateRate(wager + 3).join("<br>");
+	}
 }
 
 class bet extends UI
@@ -696,6 +708,7 @@ class bet extends UI
 	{
 		//console.log(Object.getOwnPropertyNames(UI.prototype));
 		super.pushButtonLeft();
+		super.changeRate();
 
 		const {credits, wager} = gameJW;
 		if(credits >= JW.minBet && wager < JW.maxBet)
@@ -715,8 +728,8 @@ class bet extends UI
 		const {credits, wager} = gameJW;
 		if(credits + wager >= JW.minBet && wager < JW.maxBet)
 		{
-			gameJW.credits = credits - (JW.MaxBet - wager);
-			gameJW.wager = JW.MaxBet;
+			gameJW.credits = credits - (JW.maxBet - wager);
+			gameJW.wager = JW.maxBet;
 		}
 
 		return new bet();
