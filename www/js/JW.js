@@ -21,7 +21,10 @@ class setJW
 {
 	constructor()
 	{
-		this.hands = 
+		this.suits = ["s", "c", "h", "d"];
+		this.numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+		this.jokers = [1];
+		this.hands =
 		[
 			"ROYAL FLUSH W/O JOKER--",
 			"FIVE OF A KIND---------",
@@ -551,8 +554,8 @@ class ContextJW
 {
 	constructor()
 	{
-		this.cards = [];
-		this.illust =
+		this.deck = [];
+		this.illusts =
 		[
 			["", "🂡", "🂢", "🂣", "🂤", "🂥", "🂦", "🂧", "🂨", "🂩", "🂪", "🂫", "🂭", "🂮"],
 			["", "🃑", "🃒", "🃓", "🃔", "🃕", "🃖", "🃗", "🃘", "🃙", "🃚", "🃛", "🃝", "🃞"],
@@ -674,13 +677,97 @@ class UI
 	{
 		const {wager} = gameJW;
 		console.log(wager);
-		this.domRate1.innerHTML = JW.calculateRate(wager + 0).join("<br>");
-		this.domRate2.innerHTML = JW.calculateRate(wager + 1).join("<br>");
-		this.domRate3.innerHTML = JW.calculateRate(wager + 2).join("<br>");
-		this.domRate4.innerHTML = JW.calculateRate(wager + 3).join("<br>");
+	
+		// rotateRate4 -3 (17)枚までは domRate3 まで変更
+		if(wager <= (JW.rotateRate4 - 3))
+		{
+			this.domRate1.innerHTML = JW.calculateRate(wager).join("<br>");
+			this.domRate2.innerHTML = JW.calculateRate(wager + 1).join("<br>");
+			this.domRate3.innerHTML = JW.calculateRate(wager + 2).join("<br>");
+		}
+		// maxBet - 3 (37)枚までは domRate4 まで変更
+		else if(wager < (JW.maxBet - 3))
+		{
+			this.domRate1.innerHTML = JW.calculateRate(wager + 0).join("<br>");
+			this.domRate2.innerHTML = JW.calculateRate(wager + 1).join("<br>");
+			this.domRate3.innerHTML = JW.calculateRate(wager + 2).join("<br>");
+			this.domRate4.innerHTML = JW.calculateRate(wager + 3).join("<br>");
+		}
+		// maxBet (40) 枚の場合は maxBet - 4 ～ maxBet までにする
+		else if(wager === JW.maxBet)
+		{
+			this.domRate1.innerHTML = JW.calculateRate(JW.maxBet - 4).join("<br>");
+			this.domRate2.innerHTML = JW.calculateRate(JW.maxBet - 3).join("<br>");
+			this.domRate3.innerHTML = JW.calculateRate(JW.maxBet - 2).join("<br>");
+			this.domRate4.innerHTML = JW.calculateRate(JW.maxBet - 1).join("<br>");
+		}
+	}
+
+	initCard()
+	{
+		const cardNum = JW.suits * JW.numbers + JW.jokers;
+
+		// カードの準備
+		for(const suit of JW.suits)
+		{
+			const color = (suit === "s" || suit === "c")
+				? "b"
+				: "r";
+
+			for(const number of JW.numbers)
+			{
+				gameJW.deck.push(
+					{
+						suit,
+						number,
+						color,
+					}
+				);
+			}
+		}
+
+		// jokerを含むゲームの場合、ジョーカーを用意する。
+		for(const j of JW.jokers)
+		{
+			if(j === 0)
+			{
+				break;
+			}
+			// 1枚なら黒、2枚目以降は赤、黒...と color を設定する
+			const color = (j % 2 !== 0)
+				? "b"
+				: "r";
+			gameJW.deck.push(
+				{
+					suit: "j",
+					number: 0,
+					color,
+				}
+			);
+		}
+		// debug
+		for(const card of gameJW.deck)
+		{
+			console.log(card.suit, card.number, card.color);
+		}
+
+/*
+		// シャッフルしてます
+		for(i = 0; i <= 2; i++)
+		{
+			for(j = 0; j < cardNum; j++)
+			{
+				r = Math.floor(Math.random() * cardNum);
+				tmpCard = this.cards[j];
+				this.cards[j] = this.cards[r];
+				this.cards[r] = tmpCard;
+			}
+		}
+*/
 	}
 }
 
+// ページ表示 から DEAL まで
 class bet extends UI
 {
 	constructor()
@@ -691,7 +778,7 @@ class bet extends UI
 		this.textButtonLeft = "BET ONE";
 		this.textButtonCenter = "MAX BET";
 		this.textButtonRight = "DEAL";
-		this.textBottomCenter = "GOOD LUCK";
+		this.textBottomCenter = "GAME OVER";
 
 		this.domTextButtonLeft.textContent = this.textButtonLeft;
 		this.domTextButtonCenter.textContent = this.textButtonCenter;
@@ -706,9 +793,7 @@ class bet extends UI
 	// BET ONE
 	pushButtonLeft = () =>
 	{
-		//console.log(Object.getOwnPropertyNames(UI.prototype));
 		super.pushButtonLeft();
-		super.changeRate();
 
 		const {credits, wager} = gameJW;
 		if(credits >= JW.minBet && wager < JW.maxBet)
@@ -716,6 +801,7 @@ class bet extends UI
 			gameJW.credits = credits - 1;
 			gameJW.wager = wager + 1;
 		}
+		super.changeRate();
 
 		return new bet();
 	};
@@ -731,6 +817,7 @@ class bet extends UI
 			gameJW.credits = credits - (JW.maxBet - wager);
 			gameJW.wager = JW.maxBet;
 		}
+		super.changeRate();
 
 		return new bet();
 	};
@@ -740,63 +827,38 @@ class bet extends UI
 	{
 		super.pushButtonRight();
 
-		console.log("return new game()");
-		// return new game();
+		return new game();
 	};
 }
 
-/*
-class game
+// DEAL から DRAW まで
+class game extends UI
 {
 	constructor()
 	{
+		super();
+		this.stateName = "game";
+
+		this.textButtonLeft = "";
+		this.textButtonCenter = "";
+		this.textButtonRight = "DRAW";
+		this.textBottomCenter = "GOOD LUCK";
+
+		this.domTextButtonLeft.textContent = this.textButtonLeft;
+		this.domTextButtonCenter.textContent = this.textButtonCenter;
+		this.domTextButtonRight.textContent = this.textButtonRight;
+		this.domTextBottomCenter.textContent = this.textBottomCenter;
+
+		this.domButtonRight.onclick = this.initCard;
 	}
-	generateCard(mark, number)
+
+	initCard = () =>
 	{
-		this.mark = mark;
-		this.number = number;
-	}
-
-	initCard(cardNum)
-	{
-		let tmpCard;
-		let i, j, r, x = 0;
-
-		// カードの準備
-		for(i = 0; i < 4; i++)
-		{
-			for(j = 1; j <= 13; j++)
-			{
-				this.cards[x] = new generateCard(i, j);
-				x++;
-			}
-		}
-		// jokerを含むゲームの場合、illust[4][0]の黒ジョーカーを用意する。
-		if(cardNum > 52)
-		{
-			this.cards[x] = new generateCard(4, 0);
-			x++;
-			// jokerを2枚含むゲームの場合、illust[5][0]の赤ジョーカーを用意する。
-			if(cardNum > 53)
-			{
-				this.cards[x] = new generateCard(5, 0);
-			}
-		}
-
-		// シャッフルしてます
-		for(i = 0; i <= 2; i++)
-		{
-			for(j = 0; j < cardNum; j++)
-			{
-				r = Math.floor(Math.random() * cardNum);
-				tmpCard = this.cards[j];
-				this.cards[j] = this.cards[r];
-				this.cards[r] = tmpCard;
-			}
-		}
+		super.initCard();
 	}
 }
 
+/*
 class gameResult
 {
 	constructor()
