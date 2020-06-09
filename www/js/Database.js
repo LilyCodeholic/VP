@@ -115,6 +115,17 @@ const judgeJW = () =>
 	let hasThree = false;
 	let hasTwo = false;
 	let hasTwoPair = false;
+	const has =
+	{
+		Joker: false,
+		Royal: false,
+		Flush: false,
+		Straight: false,
+		Four: false,
+		Three: false,
+		Two: false,
+		TwoPair: false,
+	}
 
 	for(i = 0; i < 5; i++)
 	{
