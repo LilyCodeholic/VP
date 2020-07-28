@@ -37,15 +37,15 @@ class setJW
 		this.jokers = [1];
 		this.hands =
 		[
-			"ROYAL FLUSH W/O JOKER--",
-			"FIVE OF A KIND---------",
-			"STRAIGHT FLUSH---------",
-			"FOUR OF A KIND---------",
-			"FULL HOUSE-------------",
-			"FLUSH------------------",
-			"STRAIGHT---------------",
-			"THREE OF A KIND--------",
-			"TWO PAIR---------------",
+			{short: "royal", text: "ROYAL FLUSH W/O JOKER--", rate1: 500, rate2: 1000},
+			{short: "five", text: "FIVE OF A KIND---------", rate1: 100, rate2: 100},
+			{short: "straight", text: "STRAIGHT FLUSH---------", rate1: 50, rate2: 50},
+			{short: "four", text: "FOUR OF A KIND---------", rate1: 20, rate2: 20},
+			{short: "fullHouse", text: "FULL HOUSE-------------", rate1: 8, rate2: 8},
+			{short: "flush", text: "FLUSH------------------", rate1: 5, rate2: 5},
+			{short: "straight", text: "STRAIGHT---------------", rate1: 4, rate2: 4},
+			{short: "three", text: "THREE OF A KIND--------", rate1: 2, rate2: 2},
+			{short: "two", text: "TWO PAIR---------------", rate1: 1, rate2: 1},
 		];
 		this.caution = "ROYAL FLUSH WITH JOKER REGARDED AS STRAIGHT FLUSH";
 		this.rate1 = [500, 100, 50, 20, 8, 5, 4, 2, 1];
@@ -59,11 +59,12 @@ class setJW
 	// wagerとrateをかけた配列を返す
 	calculateRate(multiplier)
 	{
-		const rate =
-			multiplier < this.rateChange
-				? this.rate1.map((value) => value * multiplier)
-				: this.rate2.map((value) => value * multiplier);
-		return rate;
+		if(multiplier < this.rateChange)
+		{
+			return this.hands.map((value) => value.rate1 * multiplier);
+		}
+
+		return this.hands.map((value) => value.rate2 * multiplier);
 	}
 }
 const JW = new setJW();
@@ -269,12 +270,11 @@ class UI
 			JW.deck[rand] = result[index];
 		}
 
-		/*
-		 * デバッグ
+		/* debug
 		for(let i = 0; i < 10; i++){
 			console.log(JW.deck[i].suit, JW.deck[i].number, JW.deck[i].color)
 		}
-		 */
+		*/
 	}
 }
 
@@ -500,121 +500,126 @@ class result extends UI
 		};
 		const bucket =
 		{
-			suit: [0, 0, 0, 0, 0],
+			suit: {s: 0, c: 0, h: 0, d: 0, j: 0,},
 			number: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		};
 		// 手札のスートと数字を数える
 		for(let i = 0; i < this.domHand.length; i++)
 		{
-			bucket.suit[JW.suits.indexOf(JW.deck[i].suit)]++;
+			bucket.suit[JW.deck[i].suit]++;
 			bucket.number[JW.deck[i].number]++;
 		}
 
-		/* debug */
-		console.log(bucket.suit);
+		/* debug
+		console.log(Object.values(bucket.suit));
 		console.log(bucket.number);
+		*/
 
 		// ジョーカーが含まれているか
-		if(bucket.number[0] > 0)
+		if(bucket.suit.j > 0)
 		{
-			console.log(`hasJoker: ${bucket.number[0]}`);
+			//console.log(`hasJoker: ${bucket.suit.j}`);
 			has.Joker = true;
 		}
 		// ロイヤルフラッシュの数字の組み合わせか
-		if(bucket.number[1] * bucket.number[10] * bucket.number[11] * bucket.number[12] * bucket.number[13] == 1)
+		if(bucket.number[10] + bucket.number[11] + bucket.number[12] + bucket.number[13] + bucket.number[1] + bucket.number[0] === 5)
 		{
-			console.log(`hasRoyal: ${bucket.number[1]} ${bucket.number[10]} ${bucket.number[11]} ${bucket.number[12]} ${bucket.number[13]}`);
+			//console.log(`hasRoyal: ${bucket.number[1]} ${bucket.number[10]} ${bucket.number[11]} ${bucket.number[12]} ${bucket.number[13]}`);
 			has.Royal = true;
 		}
 		// 同じマークが5枚揃っているか
-		if(bucket.suit.some(function(element){return element + this[0] == 5;}, bucket.number))
+		if(Object.values(bucket.suit).some((element) => {return element + bucket.suit.j === 5}))
 		{
-			console.log(`hasFlush: ${bucket.suit[0]} ${bucket.suit[1]} ${bucket.suit[2]} ${bucket.suit[3]} ${bucket.suit[4]} ${bucket.suit[5]}`);
+			//console.log(`hasFlush: ${bucket.suit.s} ${bucket.suit.c} ${bucket.suit.h} ${bucket.suit.d} ${bucket.suit.j}`);
 			has.Flush = true;
 		}
-		// 数字が5連番か
+		// 数字が5連番か(手札の最小値と最大値の差が5より小さく、すべての数字は1枚ずつ持っている)
 		if(bucket.number.lastIndexOf(1) - bucket.number.indexOf(1, 1) < 5 &&
-		bucket.number.filter(function(element){return element == 1;}).length + bucket.number[0] >= 5)
+			bucket.number.filter(function(element){return element === 1;}).length + bucket.number[0] >= 5)
 		{
-			console.log(`hasStraight: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+			//console.log(`hasStraight: ${JW.deck[0].number} ${JW.deck[1].number} ${JW.deck[2].number} ${JW.deck[3].number} ${JW.deck[4].number}`);
 			has.Straight = true;
 		}
 		// 同じ数字が4枚あるか
-		if(bucket.number.some(function(element){return element == 4;}))
+		if(bucket.number.some((element) => {return element == 4;}))
 		{
-			console.log(`hasFour: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+			//console.log(`hasFour: ${JW.deck[0].number} ${JW.deck[1].number} ${JW.deck[2].number} ${JW.deck[3].number} ${JW.deck[4].number}`);
 			has.Four = true;
 		}
 		// 同じ数字が3枚あるか
-		if(bucket.number.some(function(element){return element == 3;}))
+		if(bucket.number.some((element) => {return element == 3;}))
 		{
-			console.log(`hasThree: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+			//console.log(`hasThree: ${JW.deck[0].number} ${JW.deck[1].number} ${JW.deck[2].number} ${JW.deck[3].number} ${JW.deck[4].number}`);
 			has.Three = true;
 		}
 		// 同じ数字が2枚あるか
-		if(bucket.number.some(function(element){return element == 2;}))
+		if(bucket.number.some((element) => {return element == 2;}))
 		{
-			console.log(`hasTwo: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+			//console.log(`hasTwo: ${JW.deck[0].number} ${JW.deck[1].number} ${JW.deck[2].number} ${JW.deck[3].number} ${JW.deck[4].number}`);
 			has.Two = true;
 		}
 		// 同じ数字が2枚を2組持っているか
-		if(bucket.number.filter(function(element){return element >= 2;}).length >= 2)
+		if(bucket.number.filter((element) => {return element >= 2;}).length >= 2)
 		{
-			console.log(`hasTwoPair: ${cards[0].number} ${cards[1].number} ${cards[2].number} ${cards[3].number} ${cards[4].number}`);
+			//console.log(`hasTwoPair: ${JW.deck[0].number} ${JW.deck[1].number} ${JW.deck[2].number} ${JW.deck[3].number} ${JW.deck[4].number}`);
 			has.TwoPair = true;
 		}
 
+		//数字を返さなくていいようにする
 		// ROYAL FLUSH W/O JOKER
-		if(!hasJoker && hasRoyal && hasFlush)
+		if(!has.Joker && has.Royal && has.Flush)
 		{
-			judge = 500;
+			this.win = 500;
 		}
 		// FIVE OF A KIND
-		else if(hasJoker && hasFour)
+		else if(has.Joker && has.Four)
 		{
-			judge = 100;
+			this.win = 100;
 		}
 		// STRAIGHT FLUSH
-		else if(hasFlush && hasStraight)
+		else if(has.Straight && has.Flush || has.Joker && has.Royal && has.Flush)
 		{
-			judge = 50;
+			this.win = 50;
 		}
 		// FOUR OF A KIND
-		else if(hasFour || (hasJoker && hasThree))
+		else if(has.Four || (has.Joker && has.Three))
 		{
-			judge = 20;
+			this.win = 20;
 		}
 		// FULL HOUSE
-		else if((hasJoker && hasTwoPair) || (hasThree && hasTwoPair))
+		else if((has.Joker && has.TwoPair) || (has.Three && has.TwoPair))
 		{
-			judge = 8;
+			this.win = 8;
 		}
 		// FLUSH
-		else if(hasFlush)
+		else if(has.Flush)
 		{
-			judge = 5;
+			this.win = 5;
 		}
 		// STRAIGHT
-		else if(hasStraight)
+		else if(has.Straight)
 		{
-			judge = 4;
+			this.win = 4;
 		}
 		// THREE OF A KIND
-		else if(hasThree || (hasTwo && hasJoker))
+		else if(has.Three || (has.Two && has.Joker))
 		{
-			judge = 2;
+			this.win = 2;
 		}
 		// TWO PAIR
-		else if(hasTwoPair)
+		else if(has.TwoPair)
 		{
-			judge = 1;
+			this.win = 1;
 		}
 		// はずれ
 		else
 		{
-			judge = 0;
+			this.win = 0;
 		}
-
+console.log(`this.win = ${this.win}`);
+		//変更する
+		JW.calculateRate(this.paid)
+		this.domValueWin = this.win * rate;
 	}
 }
 
@@ -683,7 +688,8 @@ const divRowRate1 = document.createElement("div");
 const divTextCaution = document.createElement("div");
 
 divTextRate.setAttribute("id", "JWtextRate");
-divTextRate.insertAdjacentHTML("beforeend", JW.hands.join("<br>"));
+/* 配列として取得できるように変更する */
+divTextRate.insertAdjacentHTML("beforeend", JW.hands.text.join("<br>"));
 divRate0.setAttribute("id", "JWrate0");
 divRate0.insertAdjacentHTML("beforeend", JW.calculateRate(1).join("<br>"));
 divRate1.setAttribute("id", "JWrate1");
@@ -963,167 +969,6 @@ fragment.appendChild(rowButton);
 
 const list = document.getElementById("listJokersWild");
 list.appendChild(fragment);
-
-//
-
-class ContextMario
-{
-	constructor()
-	{
-		// きのこを食べる
-		this.EVENT_EAT_MUSHROOM = 0;
-		// フラワーを食べる
-		this.EVENT_EAT_FLOWER = 1;
-		// ノコノコに当たる
-		this.EVENT_DAMAGE = 2;
-	}
-
-	adventures()
-	{
-		console.log("game start");
-		this.state = new MiniMario();
-		const gameevent = [0, 1, 2, 1, 1, 2, 2, 2];
-		for(const value of gameevent)
-		{
-			this.state.sayState();
-			if(this.EVENT_EAT_MUSHROOM === value)
-			{
-				this.state = this.state.eatMushroom();
-			}
-			else if(this.EVENT_EAT_FLOWER === value)
-			{
-				this.state = this.state.eatFlower();
-			}
-			else if(this.EVENT_DAMAGE === value)
-			{
-				this.state = this.state.beDamaged();
-			}
-			else
-			{
-				console.log("例外");
-			}
-		}
-	}
-}
-
-class Mario
-{
-	constructor()
-	{
-		this.Mushroom = "きのこを食べた！";
-		this.Flower = "フラワーを食べた！";
-		this.damage = "ノコノコに当たった！";
-	}
-
-	eatMushroom()
-	{
-		console.log(`状態遷移(アクション) ---> ${this.Mushroom}`);
-	}
-
-	eatFlower()
-	{
-		console.log(`状態遷移(アクション) ---> ${this.Flower}`);
-	}
-
-	beDamaged()
-	{
-		console.log(`状態遷移(アクション) ---> ${this.damage}`);
-	}
-
-	sayState()
-	{
-		console.log(`this is ${this.constructor.name}`);
-	}
-}
-
-class MiniMario extends Mario
-{
-	eatMushroom()
-	{
-		super.eatMushroom();
-
-		return new BigMario();
-	}
-
-	eatFlower()
-	{
-		super.eatFlower();
-
-		return new FireMario();
-	}
-
-	beDamaged()
-	{
-		super.beDamaged();
-		console.log("game over!!");
-	}
-
-	sayState()
-	{
-		super.sayState();
-	}
-}
-
-class BigMario extends Mario
-{
-	eatMushroom()
-	{
-		super.eatMushroom();
-
-		return new BigMario();
-	}
-
-	eatFlower()
-	{
-		super.eatFlower();
-
-		return new FireMario();
-	}
-
-	beDamaged()
-	{
-		super.beDamaged();
-
-		return new MiniMario();
-	}
-
-	sayState()
-	{
-		super.sayState();
-	}
-}
-
-class FireMario extends Mario
-{
-	eatMushroom()
-	{
-		super.eatMushroom();
-
-		return new FireMario();
-	}
-
-	eatFlower()
-	{
-		super.eatFlower();
-
-		return new FireMario();
-	}
-
-	beDamaged()
-	{
-		super.beDamaged();
-
-		return new BigMario();
-	}
-
-	sayState()
-	{
-		super.sayState();
-	}
-}
-
-//	const Game = new ContextMario();
-//	Game.adventures();
 
 const gameJW = new ContextJW();
 gameJW.startGame();
